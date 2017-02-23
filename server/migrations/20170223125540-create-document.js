@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    queryInterface.createTable('roles', {
+    queryInterface.createTable('documents', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -9,6 +9,9 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       title: {
+        type: Sequelize.STRING
+      },
+      content: {
         type: Sequelize.STRING
       },
       createdAt: {
@@ -19,18 +22,18 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
-      roleId: {
+      userId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        onDelete: 'CASCADE',
         references: {
-          model: 'role',
+          model: 'User',
           key: 'id',
-          as: 'roleId',
+          as: 'userId',
         },
       },
     });
   },
   down: (queryInterface) => {
-    queryInterface.dropTable('roles');
+    queryInterface.dropTable('documents');
   }
 };
