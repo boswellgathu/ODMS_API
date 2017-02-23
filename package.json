@@ -1,0 +1,39 @@
+{
+  "name": "gdocs",
+  "version": "1.0.0",
+  "description": "Online document management app",
+  "main": "server.js",
+  "scripts": {
+    "start:dev": "nodemon ./bin/www",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andela-Bgathu/GDocs.git"
+  },
+  "keywords": [
+    "document",
+    "management",
+    "postgres",
+    "sequelize",
+    "react",
+    "es6"
+  ],
+  "author": "boswellgathu <boswell.gathu@andela.com || boswellgathu@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andela-Bgathu/GDocs/issues"
+  },
+  "homepage": "https://github.com/andela-Bgathu/GDocs#readme",
+  "dependencies": {
+    "body-parser": "^1.16.1",
+    "express": "^4.14.1",
+    "morgan": "^1.8.1",
+    "pg": "^6.1.2",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^3.30.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
+}
