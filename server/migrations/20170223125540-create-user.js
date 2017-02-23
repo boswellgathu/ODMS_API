@@ -27,7 +27,16 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+      },
+      roleId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'roles',
+          key: 'id',
+          as: 'roleId',
+        },
+      },
     });
   },
   down: (queryInterface) => {
