@@ -9,6 +9,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    access: {
+      type: DataTypes.ENUM,
+      values: ['public', 'private'],
+      defaultValue: 'private'
+    },
   }, {
     classMethods: {
       associate: (models) => {
