@@ -63,8 +63,8 @@ module.exports = {
   },
   destroy(req, res) {
     return User
-      .findById(req.params.id)
-      .then(todo => {
+      .findById(req.params.UserId)
+      .then(user => {
         if (!user) {
           return res.status(400).send({
             message: 'user Not Found',

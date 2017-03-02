@@ -10,8 +10,14 @@ module.exports = (app) => {
   app.post('/api/user', userController.create);
   app.get('/api/user', userController.list);
   app.get('/api/user/:UserId', userController.retrieve);
-  app.post('/api/user/:UserId/update', userController.update);
+  app.put('/api/user/:UserId/update', userController.update);
+  app.delete('/api/user/:UserId/delete', userController.destroy);
   app.post('/api/role', roleController.create);
-  app.post('/api/document', docController.create);
+  app.post('/api/documents', docController.create);
+  app.get('/api/documents', docController.list);
+  app.get('/api/documents/:DocId', docController.retrieve);
+  app.put('/api/documents/:DocId', docController.update);
+  app.delete('/api/documents/:DocId', docController.destroy);
+  app.get('/api/users/:UserId/documents', docController.RetrieveDocsByUser);
 
 };
