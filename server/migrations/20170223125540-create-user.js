@@ -9,9 +9,13 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       email: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: true
       },
       password: {
+        type: Sequelize.STRING
+      },
+      password_confirmation: {
         type: Sequelize.STRING
       },
       firstName: {

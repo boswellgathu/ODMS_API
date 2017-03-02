@@ -1,6 +1,7 @@
 const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
+const port = parseInt(process.env.PORT, 10) || 8000;
 
 const app = express();
 app.use(logger('dev'));
@@ -18,4 +19,5 @@ app.get('*', (req, res) => res.status(200).send({
   message: 'Welcome to the beginning of nothingness.',
 }));
 
-module.exports = app;
+app.listen(port);
+console.log('go to localhost: ' + port);
