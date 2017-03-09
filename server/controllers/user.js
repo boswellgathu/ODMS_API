@@ -1,26 +1,44 @@
-const User = require('../models').User;
-const Document = require('../models').document;
+import db from '../models';
+import jwt from 'jsonwebtoken';
+import config from '../../config/config';
 
-module.exports = {
-  create(req, res) {
+const secret = config.secret;
+const User = db.User;
+const Document = db.document;
+
+class UserController {
+  static UserInfo(user) {
+    return {
+      roleId: user.roleId,
+      email: user.email,
+      id: user.id
+    }
+  }
+  static GenerateToken(user) {
+    return jwt.sign(this.UserInfo(user), secret, {
+      expiresIn: '24h'
+    });
+  }
+  static CreateUser(req, res) {
     return User
-      .create({
-        email: req.body.email,
-        password: User.generateHash(req.body.password),
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        roleId: req.body.roleId
+      .create(req.body)
+      .then((user) => {
+        const token = this.GenerateToken(user)
+        return res.status(201).send({
+          message: 'User created Succesfully',
+          token: token,
+          user: user
+        })
       })
-      .then(user => res.status(201).send(user))
-      .catch(error => res.status(400).send(error));
-  },
-  list(req, res) {
+      .catch(error => res.status(400).send(error)); // res.status(400).send(error)
+  }
+  static ListUsers(req, res) {
     return User
       .all()
       .then(user => res.status(200).send(user))
       .catch(error => res.status(400).send(error));
-  },
-  retrieve(req, res) {
+  }
+  static RetrieveUser(req, res) {
     return User
       .findById(req.params.UserId, {
         include: [{
@@ -37,8 +55,8 @@ module.exports = {
         return res.status(200).send(user);
       })
       .catch(error => res.status(400).send(error));
-  },
-  update(req, res) {
+  }
+  static UpdateUser(req, res) {
     return User
       .findById(req.params.UserId, {
         include: [{
@@ -60,8 +78,8 @@ module.exports = {
           .catch((error) => res.status(400).send(error));
       })
       .catch((error) => res.status(400).send(error));
-  },
-  destroy(req, res) {
+  }
+  static DeleteUser(req, res) {
     return User
       .findById(req.params.UserId)
       .then(user => {
@@ -78,5 +96,32 @@ module.exports = {
           .catch(error => res.status(400).send(error));
       })
       .catch(error => res.status(400).send(error));
-  },
-};
+  }
+  static Login(req, res) {
+    return User
+      .findOne({
+        where: {
+          email: req.body.email
+        }
+      })
+      .then((user) => {
+        if (user && user.Authenticate(req.body.password)) {
+          const token = UserController.GenerateToken(user)
+          return res.status(201).send({
+            message: 'User Login Succesfull',
+            token: token,
+            user: user
+          })
+        } else {
+          return res.status(401).send({
+            message: 'Wrong Password',
+          });
+        }
+      })
+  }
+  static Logout(req, res) {
+    console.log('a');
+  }
+}
+
+export default UserController;

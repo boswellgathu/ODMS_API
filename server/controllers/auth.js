@@ -1,43 +1,62 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models').User;
+import jwt from 'jsonwebtoken';
+import db from '../models';
+import config from '../../config/config';
 
-module.exports = {
-  UserInfo(user) {
+const User = db.User;
+const secret = config.secret;
+
+class AuthHandler {
+  static UserInfo(user) {
     return {
-      user.roleId,
-      user.email,
-      user.id
+      role: user.roleId,
+      email: user.email,
+      userId: user.id
     }
-  },
-  GenerateToken(user) {
+  }
+  static GenerateToken(user) {
     return jwt.sign(UserInfo(user), secret, {
       expiresIn: 60 * 60 * 24 // 24 Hours
     });
-  },
-  CheckToken(req, res) {
+  }
+  static VerifyToken(req, res, next) {
     const token = req.body.token || req.query.token || req.headers['x-access-token'];
     if (token) {
       jwt.verify(token, secret, (err, decoded) => {
         if (err) {
-          return res.json({
+          return res.status(403).send({
             message: 'Failed to authenticate token.'
           });
         } else {
-          // if everything is good, save to request for use in other routes
           req.decoded = decoded;
+          next();
         }
       });
     } else {
-      // if there is no token return an error
       return res.status(403).send({
         message: 'No token provided.'
       });
     }
-  },
-  Login(user) {
-    // login method
-  },
-  Logout(user) {
-    // logout method
+  }
+  static VerifyAdmin(req, res, next) {
+    const Role = parseInt(req.query.roleId || req.body.roleId || req.headers['roleid']);
+    if (Role && Role === 1) {
+      // TODO set the role to a name
+      next();
+    } else {
+      return res.status(403).send({
+        message: "You do not have permission to access this"
+      })
+    }
+  }
+  static VerifyUser(req, res, next) {
+    const Role = parseInt(req.query.roleId || req.body.roleId || req.headers['roleid']);
+    if (Role && (Role === 1 || Role === 2)) {
+      next();
+    } else {
+      return res.status(403).send({
+        message: "You do not have permission to access this"
+      })
+    }
   }
 }
+export default AuthHandler;

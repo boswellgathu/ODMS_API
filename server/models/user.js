@@ -1,6 +1,6 @@
 'use strict';
-const bcrypt = require('bcrypt');
-const Sequelize = require('sequelize');
+import Bcrypt from 'bcrypt-nodejs';
+import Sequelize from 'sequelize';
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
@@ -27,6 +27,15 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
+    password_confirmation: {
+      type: DataTypes.VIRTUAL,
+      allowNull: false,
+      validate: {
+        len: {
+          args: 3
+        }
+      }
+    },
     firstName: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -36,6 +45,13 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     }
   }, {
+    validate: {
+      PasswordCheck: () => {
+        if (User.password !== User.password_confirmation) {
+          throw new Error('Both password and password_confirmation should be equal')
+        }
+      }
+    },
     classMethods: {
       associate: (models) => {
         User.hasMany(models.document, {
@@ -43,15 +59,25 @@ module.exports = (sequelize, DataTypes) => {
           onDelete: 'CASCADE'
         });
       },
-      generateHash: (password) => {
-        return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
+      GenerateHashPassword(password) {
+        return Bcrypt.hashSync(password, Bcrypt.genSaltSync(10), null);
       }
     },
     instanceMethods: {
-      validPassword: (password) => {
-        return bcrypt.compareSync(password, this.password);
+      Authenticate(password) {
+        return Bcrypt.compareSync(password, this.password);
       }
     }
-  });
+  })
+  User.beforeCreate((user, options) => {
+    const HashedPassword = Bcrypt.hashSync(user.password, Bcrypt.genSaltSync(10), null)
+    user.password = HashedPassword;
+  })
+  User.beforeUpdate((user, options) => {
+    if (user.password) {
+      const HashedPassword = Bcrypt.hashSync(user.password, Bcrypt.genSaltSync(10), null)
+      user.password = HashedPassword;
+    }
+  })
   return User;
 };

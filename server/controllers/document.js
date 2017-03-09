@@ -1,7 +1,8 @@
-const document = require('../models').document;
+import db from '../models'
+const document = db.document;
 
-module.exports = {
-  create(req, res) {
+class DocController {
+  static CreateDoc(req, res) {
     return document
       .create({
         title: req.body.title,
@@ -11,8 +12,8 @@ module.exports = {
       })
       .then(Role => res.status(201).send(Role))
       .catch(error => res.status(400).send(error));
-  },
-  list(req, res) {
+  }
+  static ListDocs(req, res) {
     return document
       .findAll({
         where: {
@@ -21,8 +22,8 @@ module.exports = {
       })
       .then(documents => res.status(200).send(documents))
       .catch(error => res.status(400).send(error));
-  },
-  retrieve(req, res) {
+  }
+  static GetDocs(req, res) {
     return document
       .findById(req.params.DocId)
       .then(document => {
@@ -34,8 +35,8 @@ module.exports = {
         return res.status(200).send(document);
       })
       .catch(error => res.status(400).send(error));
-  },
-  update(req, res) {
+  }
+  static UpdateDoc(req, res) {
     return document
       .findById(req.params.DocId)
       .then(document => {
@@ -52,8 +53,8 @@ module.exports = {
           .catch((error) => res.status(400).send(error));
       })
       .catch((error) => res.status(400).send(error));
-  },
-  destroy(req, res) {
+  }
+  static DeleteDoc(req, res) {
     return document
       .findById(req.params.DocId)
       .then(document => {
@@ -70,8 +71,8 @@ module.exports = {
           .catch(error => res.status(400).send(error));
       })
       .catch(error => res.status(400).send(error));
-  },
-  RetrieveDocsByUser(req, res) {
+  }
+  static RetrieveDocsByUser(req, res) {
     return document
       .findAll({
         where: {
@@ -89,3 +90,5 @@ module.exports = {
       .catch(error => res.status(400).send(error));
   }
 }
+
+export default DocController;

@@ -1,7 +1,9 @@
-const role = require('../models').role;
+import db from '../models';
 
-module.exports = {
-  create(req, res) {
+const role = db.role;
+
+export default class RoleController {
+  static CreateRole(req, res) {
     return role
       .create({
         title: req.body.title,

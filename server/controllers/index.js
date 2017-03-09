@@ -1,9 +1,11 @@
-const roles = require('./role');
-const documents = require('./document');
-const users = require('./user');
+import RoleController from './role';
+import DocController from './document';
+import UserController from './user';
+import AuthHandler from './auth';
 
-module.exports = {
-  roles,
-  documents,
-  users
+export {
+  RoleController,
+  DocController,
+  UserController,
+  AuthHandler
 };
