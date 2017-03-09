@@ -1,23 +1,27 @@
-import UserController from '../controllers/user'
-import RoleController from '../controllers/role'
-import DocController from '../controllers/document'
+import {
+  UserController,
+  RoleController,
+  DocController,
+  AuthHandler
+} from '../controllers'
 
-module.exports = (app) => {
-  app.get('/api', (req, res) => res.status(200).send({
-    message: 'Welcome to the Docs API!',
-  }));
+const Admin = AuthHandler.VerifyAdmin;
+const User = AuthHandler.VerifyUser;
+const Auth = AuthHandler.VerifyToken;
 
+export default function (app) {
   app.post('/api/user', UserController.CreateUser);
-  app.get('/api/user', UserController.ListUsers);
-  app.get('/api/user/:UserId', UserController.RetrieveUser);
-  app.put('/api/user/:UserId/update', UserController.UpdateUser);
-  app.delete('/api/user/:UserId/delete', UserController.DeleteUser);
-  app.post('/api/role', RoleController.create);
-  app.post('/api/documents', DocController.CreateDoc);
-  app.get('/api/documents', DocController.ListDocs);
-  app.get('/api/documents/:DocId', DocController.GetDocs);
-  app.put('/api/documents/:DocId', DocController.UpdateDoc);
-  app.delete('/api/documents/:DocId', DocController.DeleteDoc);
-  app.get('/api/users/:UserId/documents', DocController.RetrieveDocsByUser);
-
+  app.get('/api/user', Auth, Admin, UserController.ListUsers); // admin
+  app.get('/api/user/:UserId', Auth, User, UserController.RetrieveUser);
+  app.put('/api/user/:UserId/update', Auth, User, UserController.UpdateUser);
+  app.delete('/api/user/:UserId/delete', Auth, Admin, UserController.DeleteUser);
+  app.post('/api/user/login', UserController.Login);
+  app.post('/api/user', UserController.Logout);
+  // app.post('/api/role', RoleController.CreateRole);
+  app.post('/api/documents', Auth, User, DocController.CreateDoc);
+  app.get('/api/documents', Auth, User, DocController.ListDocs);
+  app.get('/api/documents/:DocId', Auth, User, DocController.GetDocs);
+  app.put('/api/documents/:DocId', Auth, User, DocController.UpdateDoc);
+  app.delete('/api/documents/:DocId', Auth,User, DocController.DeleteDoc);
+  app.get('/api/users/:UserId/documents', Auth, User, DocController.RetrieveDocsByUser);
 };

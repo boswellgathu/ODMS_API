@@ -1,7 +1,8 @@
 import db from '../models';
 import jwt from 'jsonwebtoken';
+import config from '../../config/config';
 
-const secret = process.env.SECRET || 'hahathisisnottruejwtisafakerdontuseityouarebeingf**dwith';
+const secret = config.secret;
 const User = db.User;
 const Document = db.document;
 
@@ -14,28 +15,22 @@ class UserController {
     }
   }
   static GenerateToken(user) {
-    return jwt.sign(UserInfo(user), secret, {
-      expiresIn: 60 * 60 * 24 // 24 Hours
+    return jwt.sign(this.UserInfo(user), secret, {
+      expiresIn: '24h'
     });
   }
   static CreateUser(req, res) {
     return User
       .create(req.body)
       .then((user) => {
-        const token = jwt.sign({
-          roleId: user.roleId,
-          email: user.email,
-          id: user.id
-        }, secret, {
-          expiresIn: 60 * 60 * 24
-        })
+        const token = this.GenerateToken(user)
         return res.status(201).send({
           message: 'User created Succesfully',
           token: token,
           user: user
         })
       })
-      .catch(error => console.log(error)); // res.status(400).send(error)
+      .catch(error => res.status(400).send(error)); // res.status(400).send(error)
   }
   static ListUsers(req, res) {
     return User
@@ -101,6 +96,31 @@ class UserController {
           .catch(error => res.status(400).send(error));
       })
       .catch(error => res.status(400).send(error));
+  }
+  static Login(req, res) {
+    return User
+      .findOne({
+        where: {
+          email: req.body.email
+        }
+      })
+      .then((user) => {
+        if (user && user.Authenticate(req.body.password)) {
+          const token = UserController.GenerateToken(user)
+          return res.status(201).send({
+            message: 'User Login Succesfull',
+            token: token,
+            user: user
+          })
+        } else {
+          return res.status(401).send({
+            message: 'Wrong Password',
+          });
+        }
+      })
+  }
+  static Logout(req, res) {
+    console.log('a');
   }
 }
 

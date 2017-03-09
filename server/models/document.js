@@ -1,4 +1,3 @@
-'use strict';
 module.exports = (sequelize, DataTypes) => {
   const document = sequelize.define('document', {
     title: {
@@ -6,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     content: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     access: {

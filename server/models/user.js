@@ -1,6 +1,6 @@
 'use strict';
-const bcrypt = require('bcrypt');
-const Sequelize = require('sequelize');
+import Bcrypt from 'bcrypt-nodejs';
+import Sequelize from 'sequelize';
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
@@ -59,23 +59,23 @@ module.exports = (sequelize, DataTypes) => {
           onDelete: 'CASCADE'
         });
       },
-      GenerateHashPassword: (password) => {
-        return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
-      },
+      GenerateHashPassword(password) {
+        return Bcrypt.hashSync(password, Bcrypt.genSaltSync(10), null);
+      }
     },
     instanceMethods: {
-      authenticate: (password) => {
-        return bcrypt.compareSync(password, this.password);
+      Authenticate(password) {
+        return Bcrypt.compareSync(password, this.password);
       }
     }
   })
   User.beforeCreate((user, options) => {
-    const HashedPassword = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10), null)
+    const HashedPassword = Bcrypt.hashSync(user.password, Bcrypt.genSaltSync(10), null)
     user.password = HashedPassword;
   })
   User.beforeUpdate((user, options) => {
     if (user.password) {
-      const HashedPassword = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10), null)
+      const HashedPassword = Bcrypt.hashSync(user.password, Bcrypt.genSaltSync(10), null)
       user.password = HashedPassword;
     }
   })
