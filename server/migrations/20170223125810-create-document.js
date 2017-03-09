@@ -12,7 +12,13 @@ module.exports = {
         type: Sequelize.STRING
       },
       content: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      access: {
+        type: Sequelize.ENUM,
+        values: ['public', 'private'],
+        defaultValue: 'private'
       },
       createdAt: {
         allowNull: false,
@@ -24,9 +30,10 @@ module.exports = {
       },
       userId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         onDelete: 'CASCADE',
         references: {
-          model: 'User',
+          model: 'Users',
           key: 'id',
           as: 'userId',
         },
