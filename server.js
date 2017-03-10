@@ -22,4 +22,6 @@ app.get('*', (req, res) => res.status(200).send({
 }));
 
 app.listen(port);
-console.log(`go to http://localhost:${port}`);
+// console.log(`go to http://localhost:${port}`);
+
+module.exports = app;
