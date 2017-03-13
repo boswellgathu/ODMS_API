@@ -1,72 +1,77 @@
-'use strict';
 import Bcrypt from 'bcrypt-nodejs';
 import Sequelize from 'sequelize';
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
-    email: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      unique: true,
-      validate: {
-        len: {
-          args: [6, 128],
-          msg: "Email address must be between 6 and 128 characters in length"
-        },
-        isEmail: {
-          msg: "Email address must be valid"
+      email: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          len: {
+            args: [6, 128],
+            msg: "Email address must be between 6 and 128 characters in length"
+          },
+          isEmail: {
+            msg: "Email address must be valid"
+          }
         }
-      }
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        len: {
-          args: 3
-        }
-      }
-    },
-    password_confirmation: {
-      type: DataTypes.VIRTUAL,
-      allowNull: false,
-      validate: {
-        len: {
-          args: 3
-        }
-      }
-    },
-    firstName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    lastName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    }
-  }, {
-    validate: {
-      PasswordCheck: () => {
-        if (User.password !== User.password_confirmation) {
-          throw new Error('Both password and password_confirmation should be equal')
-        }
-      }
-    },
-    classMethods: {
-      associate: (models) => {
-        User.hasMany(models.document, {
-          foreignKey: 'userId',
-          onDelete: 'CASCADE'
-        });
       },
-      GenerateHashPassword(password) {
-        return Bcrypt.hashSync(password, Bcrypt.genSaltSync(10), null);
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          len: {
+            args: 6,
+            msg: "password must have six or more characters"
+          }
+        }
+      },
+      password_confirmation: {
+        type: DataTypes.VIRTUAL,
+        allowNull: false,
+        validate: {
+          len: {
+            args: 3
+          }
+        }
+      },
+      firstName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      lastName: {
+        type: DataTypes.STRING,
+        allowNull: false,
       }
-    },
-    instanceMethods: {
-      Authenticate(password) {
-        return Bcrypt.compareSync(password, this.password);
+    }, {
+      validate: {
+        PasswordCheck: () => {
+          if (User.password !== User.password_confirmation) {
+            throw new Error('Password and Password_confirmation do not match!')
+          }
+        }
+      },
+      classMethods: {
+        associate: (models) => {
+          User.hasMany(models.document, {
+            foreignKey: 'userId',
+            onDelete: 'CASCADE'
+          });
+        },
+        GenerateHashPassword(password) {
+          return Bcrypt.hashSync(password, Bcrypt.genSaltSync(10), null);
+        }
+      },
+      instanceMethods: {
+        Authenticate(password) {
+          return Bcrypt.compareSync(password, this.password);
+        }
       }
+    })
+  User.beforeCreate((user, options) => {
+    if (user.password !== user.password_confirmation) {
+      throw new Error('Password and Password_confirmation do not match!')
     }
   })
   User.beforeCreate((user, options) => {

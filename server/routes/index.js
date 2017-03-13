@@ -16,7 +16,7 @@ export default function(app) {
   app.put('/api/user/:UserId/update', Auth, User, UserController.UpdateUser);
   app.delete('/api/user/:UserId/delete', Auth, Admin, UserController.DeleteUser);
   app.post('/api/user/login', UserController.Login);
-  app.post('/api/user', UserController.Logout);
+  app.post('/api/user/logout', UserController.Logout);
   app.post('/api/role', RoleController.CreateRole);
   app.get('/api/role', RoleController.GetRoles);
   app.post('/api/documents', Auth, User, DocController.CreateDoc);

@@ -3,7 +3,6 @@ import chaiHttp from 'chai-http';
 import db from '../models';
 // import app from '../../server';
 const app = require('../../server');
-const Role = db.role;
 const should = chai.should();
 const expect = require('chai').expect;
 
@@ -22,7 +21,9 @@ describe('/GET Roles', () => {
         done();
       });
   });
+});
 
+describe('/POST Roles', () => {
   it('it should create a new role', (done) => {
     chai.request(app)
       .post('/api/role')

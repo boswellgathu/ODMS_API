@@ -15,7 +15,7 @@ class UserController {
     }
   }
   static GenerateToken(user) {
-    return jwt.sign(this.UserInfo(user), secret, {
+    return jwt.sign(UserController.UserInfo(user), secret, {
       expiresIn: '24h'
     });
   }
@@ -23,7 +23,7 @@ class UserController {
     return User
       .create(req.body)
       .then((user) => {
-        const token = this.GenerateToken(user)
+        const token = UserController.GenerateToken(user)
         return res.status(201).send({
           message: 'User created Succesfully',
           token: token,
