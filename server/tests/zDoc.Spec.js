@@ -1,6 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import UserController from '../controllers/user';
+import UserController from '../controllers/UserController';
 import UserSeed from '../SeedData/UserSeed';
 // import app from '../../server';
 const app = require('../../server');
@@ -101,7 +101,7 @@ describe('/POST Documents', () => {
       .end((err, res) => {
         res.should.have.status(400);
         res.body.should.have.property('name').eql('SequelizeDatabaseError');
-        expect(res.body.message).eql('invalid input value for enum enum_documents_access: "notValid"');
+        expect(res.body.message).eql('invalid input value for enum "enum_Documents_access": "notValid"');
         done();
       });
   });

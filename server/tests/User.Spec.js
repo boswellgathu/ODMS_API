@@ -1,6 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import UserController from '../controllers/user';
+import UserController from '../controllers/UserController';
 import UserSeed from '../SeedData/UserSeed';
 // import app from '../../server';
 const app = require('../../server');

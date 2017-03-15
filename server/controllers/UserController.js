@@ -4,7 +4,7 @@ import config from '../../config/config';
 
 const secret = config.secret;
 const User = db.User;
-const Document = db.document;
+const Document = db.Document;
 
 class UserController {
   static UserInfo(user) {
@@ -43,7 +43,7 @@ class UserController {
       .findById(req.params.UserId, {
         include: [{
           model: Document,
-          as: 'documents'
+          as: 'Documents'
         }],
       })
       .then(user => {
@@ -61,7 +61,7 @@ class UserController {
       .findById(req.params.UserId, {
         include: [{
           model: Document,
-          as: 'documents',
+          as: 'Documents',
         }],
       })
       .then(user => {

@@ -1,9 +1,9 @@
 import db from '../models'
-const document = db.document;
+const Document = db.Document;
 
 class DocController {
   static CreateDoc(req, res) {
-    return document
+    return Document
       .create(req.body)
       .then(documents => res.status(201).send({
         message: "Document created succesfully",
@@ -12,7 +12,7 @@ class DocController {
       .catch(error => res.status(400).send(error));
   }
   static ListDocs(req, res) {
-    return document
+    return Document
       .findAll({
         where: {
           access: 'public'
@@ -22,7 +22,7 @@ class DocController {
       .catch(error => res.status(400).send(error));
   }
   static GetDocs(req, res) {
-    return document
+    return Document
       .findById(req.params.DocId)
       .then(document => {
         if (!document) {
@@ -35,7 +35,7 @@ class DocController {
       .catch(error => res.status(400).send(error));
   }
   static UpdateDoc(req, res) {
-    return document
+    return Document
       .findById(req.params.DocId)
       .then(document => {
         if (!document) {
@@ -53,7 +53,7 @@ class DocController {
       .catch((error) => res.status(400).send(error));
   }
   static DeleteDoc(req, res) {
-    return document
+    return Document
       .findById(req.params.DocId)
       .then(document => {
         if (!document) {
@@ -71,7 +71,7 @@ class DocController {
       .catch(error => res.status(400).send(error));
   }
   static RetrieveDocsByUser(req, res) {
-    return document
+    return Document
       .findAll({
         where: {
           userId: req.params.UserId

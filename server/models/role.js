@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const role = sequelize.define('role', {
+  const role = sequelize.define('Role', {
     title: {
       type: DataTypes.STRING,
       allowNull: false,
