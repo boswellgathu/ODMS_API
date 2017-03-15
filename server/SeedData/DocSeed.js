@@ -8,11 +8,11 @@ const DocSeed = [{
             actually understand what you've written.",
   access: "public",
   userId: 1,
-  createdAt: Date.now().toISOString(),
-  updatedAt: Date.now().toISOString()
-},
-title: "Second Document",
-content: "Understanding can be greatly influenced by word choice, \
+  createdAt: Date.now(),
+  updatedAt: Date.now()
+}, {
+  title: "Second Document",
+  content: "Understanding can be greatly influenced by word choice, \
           length of sentences, grammar, and sentence structure, so \
           content testing would pay close attention to the way the \
           author is trying to express him or herself, and whether it's\
@@ -21,11 +21,9 @@ content: "Understanding can be greatly influenced by word choice, \
           of your content (for example, Readability Score), but they are \
           not as good as relying on readers to give feedback by means of \
           a test.",
-userId: 2,
-createdAt: Date.now().toISOString(),
-updatedAt: Date.now().toISOString()
+  userId: 2,
+  createdAt: Date.now(),
+  updatedAt: Date.now()
 }];
 
-export {
-  DocSeed
-};
+module.exports = DocSeed;

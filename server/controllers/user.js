@@ -84,7 +84,7 @@ class UserController {
       .findById(req.params.UserId)
       .then(user => {
         if (!user) {
-          return res.status(400).send({
+          return res.status(404).send({
             message: 'user Not Found',
           });
         }
@@ -112,12 +112,17 @@ class UserController {
             token: token,
             user: user
           })
+        } else if (!user) {
+          return res.status(401).send({
+            message: 'Email does not Exist',
+          });
         } else {
           return res.status(401).send({
             message: 'Wrong Password',
           });
         }
       })
+      .catch(error => res.status(400).send(error));
   }
   static Logout(req, res) {
     console.log('a');

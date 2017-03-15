@@ -38,7 +38,7 @@ class AuthHandler {
     }
   }
   static VerifyAdmin(req, res, next) {
-    const Role = parseInt(req.query.roleId || req.body.roleId || req.headers['roleid']);
+    const Role = req.decoded.roleId;
     if (Role && Role === 1) {
       // TODO set the role to a name
       next();
@@ -49,7 +49,7 @@ class AuthHandler {
     }
   }
   static VerifyUser(req, res, next) {
-    const Role = parseInt(req.query.roleId || req.body.roleId || req.headers['roleid']);
+    const Role = req.decoded.roleId;
     if (Role && (Role === 1 || Role === 2)) {
       next();
     } else {

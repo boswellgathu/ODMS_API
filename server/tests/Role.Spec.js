@@ -15,7 +15,6 @@ describe('/GET Roles', () => {
     chai.request(app)
       .get('/api/role')
       .end((err, res) => {
-        console.log(err);
         res.should.have.status(200);
         res.body.should.be.a('array');
         done();

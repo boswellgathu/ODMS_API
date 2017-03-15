@@ -1,13 +1,11 @@
 const RoleSeed = [{
   title: 'admin',
-  createdAt: Date.now().toISOString(),
-  updatedAt: Date.now().toISOString()
+  createdAt: Date.now(),
+  updatedAt: Date.now()
 }, {
   title: 'user',
-  createdAt: Date.now().toISOString(),
-  updatedAt: Date.now().toISOString()
+  createdAt: Date.now(),
+  updatedAt: Date.now()
 }]
 
-export {
-  RoleSeed
-};
+module.exports = RoleSeed;

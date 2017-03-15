@@ -1,4 +1,4 @@
-import UserSeed from '../SeedData/UserSeed';
+const UserSeed = require('../SeedData/UserSeed');
 
 module.exports = {
   up: (queryInterface, Sequelize) => {

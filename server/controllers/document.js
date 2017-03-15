@@ -4,13 +4,11 @@ const document = db.document;
 class DocController {
   static CreateDoc(req, res) {
     return document
-      .create({
-        title: req.body.title,
-        content: req.body.content,
-        userId: req.body.userId,
-        access: req.body.access
-      })
-      .then(Role => res.status(201).send(Role))
+      .create(req.body)
+      .then(documents => res.status(201).send({
+        message: "Document created succesfully",
+        document: documents
+      }))
       .catch(error => res.status(400).send(error));
   }
   static ListDocs(req, res) {
@@ -59,7 +57,7 @@ class DocController {
       .findById(req.params.DocId)
       .then(document => {
         if (!document) {
-          return res.status(400).send({
+          return res.status(404).send({
             message: 'Document not found',
           });
         }
@@ -68,7 +66,7 @@ class DocController {
           .then(() => res.status(200).send({
             message: `${document.title} has been deleted succesfully`
           }))
-          .catch(error => res.status(400).send(error));
+          .catch(error => res.status(404).send(error));
       })
       .catch(error => res.status(400).send(error));
   }
@@ -79,13 +77,13 @@ class DocController {
           userId: req.params.UserId
         }
       })
-      .then(document => {
-        if (!document) {
+      .then(documents => {
+        if (documents.length === 0) {
           return res.status(404).send({
             message: 'No Documents found',
           });
         }
-        return res.status(200).send(document);
+        return res.status(200).send(documents);
       })
       .catch(error => res.status(400).send(error));
   }
