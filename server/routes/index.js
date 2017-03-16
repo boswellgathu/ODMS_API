@@ -13,6 +13,7 @@ export default function(app) {
   app.post('/api/user', UserController.CreateUser);
   app.get('/api/user', Auth, Admin, UserController.ListUsers);
   app.get('/api/user/:UserId', Auth, User, UserController.RetrieveUser);
+  app.get('/api/search/users/?q={username}', Auth, User, UserController.SearchUsers);
   app.put('/api/user/:UserId/update', Auth, User, UserController.UpdateUser);
   app.delete('/api/user/:UserId/delete', Auth, Admin, UserController.DeleteUser);
   app.post('/api/user/login', UserController.Login);

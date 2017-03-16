@@ -87,6 +87,27 @@ class DocController {
       })
       .catch(error => res.status(400).send(error));
   }
+  static SearchDocs(req, res) {
+    return Document
+      .findAll({
+        where: {
+          $or: [{
+            title: {
+              $like: '%' + req.query.doctitle + '%'
+            }
+          }]
+        }
+      })
+      .then((documents) => {
+        if (documents.length < 1) {
+          return res.status(400).send({
+            message: "No documents match that search criteria"
+          })
+        }
+        return res.status(200).send(documents);
+      })
+      .catch(error => res.status(400).send(error));
+  }
 }
 
 export default DocController;

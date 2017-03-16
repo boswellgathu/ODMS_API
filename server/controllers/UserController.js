@@ -97,6 +97,29 @@ class UserController {
       })
       .catch(error => res.status(400).send(error));
   }
+
+  static SearchUsers(req, res) {
+    return User
+      .findAll({
+        where: {
+          $or: [{
+            userName: {
+              $like: '%' + req.query.username + '%'
+            }
+          }]
+        }
+      })
+      .then((user) => {
+        if (user.length < 1) {
+          return res.status(400).send({
+            message: "No users match that search criteria"
+          })
+        }
+        return res.status(200).send(user);
+      })
+      .catch(error => res.status(400).send(error));
+  }
+
   static Login(req, res) {
     return User
       .findOne({
