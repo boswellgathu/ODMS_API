@@ -14,6 +14,4 @@ const UserSeed = [{
   roleId: 1
 }];
 
-export {
-  UserSeed
-};
+module.exports = UserSeed;

@@ -1,7 +1,7 @@
-import RoleController from './role';
-import DocController from './document';
-import UserController from './user';
-import AuthHandler from './auth';
+import RoleController from './RoleController';
+import DocController from './DocController';
+import UserController from './UserController';
+import AuthHandler from './AuthHandler';
 
 export {
   RoleController,

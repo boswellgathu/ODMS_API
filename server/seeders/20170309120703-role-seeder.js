@@ -1,8 +1,9 @@
-import RoleSeed from '../SeedData/RoleSeed';
+const RoleSeed = require('../SeedData/RoleSeed');
+const role = require('../models/role')
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('Role', RoleSeed, {});
+    return queryInterface.bulkInsert('role', RoleSeed, {});
   },
 
   down: (queryInterface, Sequelize) => {

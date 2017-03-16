@@ -4,7 +4,7 @@ import config from '../../config/config';
 
 const secret = config.secret;
 const User = db.User;
-const Document = db.document;
+const Document = db.Document;
 
 class UserController {
   static UserInfo(user) {
@@ -15,7 +15,7 @@ class UserController {
     }
   }
   static GenerateToken(user) {
-    return jwt.sign(this.UserInfo(user), secret, {
+    return jwt.sign(UserController.UserInfo(user), secret, {
       expiresIn: '24h'
     });
   }
@@ -23,7 +23,7 @@ class UserController {
     return User
       .create(req.body)
       .then((user) => {
-        const token = this.GenerateToken(user)
+        const token = UserController.GenerateToken(user)
         return res.status(201).send({
           message: 'User created Succesfully',
           token: token,
@@ -43,7 +43,7 @@ class UserController {
       .findById(req.params.UserId, {
         include: [{
           model: Document,
-          as: 'documents'
+          as: 'Documents'
         }],
       })
       .then(user => {
@@ -61,7 +61,7 @@ class UserController {
       .findById(req.params.UserId, {
         include: [{
           model: Document,
-          as: 'documents',
+          as: 'Documents',
         }],
       })
       .then(user => {
@@ -84,7 +84,7 @@ class UserController {
       .findById(req.params.UserId)
       .then(user => {
         if (!user) {
-          return res.status(400).send({
+          return res.status(404).send({
             message: 'user Not Found',
           });
         }
@@ -112,12 +112,17 @@ class UserController {
             token: token,
             user: user
           })
+        } else if (!user) {
+          return res.status(401).send({
+            message: 'Email does not Exist',
+          });
         } else {
           return res.status(401).send({
             message: 'Wrong Password',
           });
         }
       })
+      .catch(error => res.status(400).send(error));
   }
   static Logout(req, res) {
     console.log('a');

@@ -1,4 +1,4 @@
-import DocSeed from '../SeedData/DocSeed';
+const DocSeed = require('../SeedData/DocSeed');
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
