@@ -12,14 +12,32 @@ class DocController {
       .catch(error => res.status(400).send(error));
   }
   static ListDocs(req, res) {
+    if (req.query.limit || req.query.offset)
+      return Document
+        .findAll({
+          where: {
+            access: 'public',
+          },
+          limit: req.query.limit,
+          offset: req.query.offset
+        })
+        .then((documents) => {
+          if (documents.length < 1)
+            return res.status(200).send({
+              message: 'No documents exist currently'
+            })
+          return res.status(200).send(documents);
+        })
+        .catch(error => res.status(400).send(error));
+
     return Document
       .findAll({
         where: {
           access: 'public'
         }
       })
-      .then(documents => res.status(200).send(documents))
-      .catch(error => res.status(400).send(error));
+    .then(documents => res.status(200).send(documents))
+    .catch(error => res.status(400).send(error));
   }
   static GetDocs(req, res) {
     return Document
@@ -93,7 +111,7 @@ class DocController {
         where: {
           $or: [{
             title: {
-              $like: '%' + req.query.doctitle + '%'
+              $ilike: '%' + req.query.doctitle + '%'
             }
           }]
         }
