@@ -107,7 +107,8 @@ class UserController {
               $like: '%' + req.query.username + '%'
             }
           }]
-        }
+        },
+        order: '"createdAt" DESC'
       })
       .then((user) => {
         if (user.length < 1) {
