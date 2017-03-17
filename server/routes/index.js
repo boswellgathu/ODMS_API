@@ -10,14 +10,14 @@ const User = AuthHandler.VerifyUser;
 const Auth = AuthHandler.VerifyToken;
 
 export default function(app) {
-  app.post('/api/user', UserController.CreateUser);
-  app.get('/api/user', Auth, Admin, UserController.ListUsers);
-  app.get('/api/user/:UserId', Auth, User, UserController.RetrieveUser);
+  app.post('/api/users', UserController.CreateUser);
+  app.get('/api/users', Auth, Admin, UserController.ListUsers);
+  app.get('/api/users/:UserId', Auth, User, UserController.RetrieveUser);
   app.get('/api/search/users', Auth, User, UserController.SearchUsers);
-  app.put('/api/user/:UserId/update', Auth, User, UserController.UpdateUser);
-  app.delete('/api/user/:UserId/delete', Auth, Admin, UserController.DeleteUser);
-  app.post('/api/user/login', UserController.Login);
-  app.post('/api/user/logout', UserController.Logout);
+  app.put('/api/users/:UserId/update', Auth, User, UserController.UpdateUser);
+  app.delete('/api/users/:UserId/delete', Auth, Admin, UserController.DeleteUser);
+  app.post('/api/users/login', UserController.Login);
+  app.post('/api/users/logout', UserController.Logout);
   app.post('/api/role', RoleController.CreateRole);
   app.get('/api/role', RoleController.GetRoles);
   app.post('/api/documents', Auth, User, DocController.CreateDoc);

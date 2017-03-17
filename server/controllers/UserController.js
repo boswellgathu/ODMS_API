@@ -33,7 +33,22 @@ class UserController {
       .catch(error => res.status(400).send(error)); // res.status(400).send(error)
   }
   static ListUsers(req, res) {
-    return User
+    if (req.query.limit || req.query.offset)
+      return User
+      .findAll({
+        limit: req.query.limit,
+        offset: req.query.offset
+      })
+      .then((users) => {
+        if (users.length < 1)
+          return res.status(400).send({
+            message: 'No users exist currently'
+          })
+        return res.status(200).send(users);
+      })
+      .catch(error => res.status(400).send(error));
+
+      return User
       .all()
       .then(user => res.status(200).send(user))
       .catch(error => res.status(400).send(error));
@@ -104,7 +119,7 @@ class UserController {
         where: {
           $or: [{
             userName: {
-              $like: '%' + req.query.username + '%'
+              $ilike: '%' + req.query.username + '%'
             }
           }]
         },

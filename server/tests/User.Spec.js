@@ -12,11 +12,12 @@ chai.use(chaiHttp);
 describe('/POST Users', () => {
   it('it should create a new user', (done) => {
     chai.request(app)
-      .post('/api/user')
+      .post('/api/users')
       .send({
         email: "johndoe@gmail.com",
         password: "youcantseeme",
         password_confirmation: "youcantseeme",
+        userName: "johndoe",
         firstName: "John",
         lastName: "doe",
         roleId: 1
@@ -32,11 +33,12 @@ describe('/POST Users', () => {
 
   it('it should make sure a token is creating when a new user is created', (done) => {
     chai.request(app)
-      .post('/api/user')
+      .post('/api/users')
       .send({
         email: "janekim@gmail.com",
         password: "rT$^qweet#2t",
         password_confirmation: "rT$^qweet#2t",
+        userName: "janekim",
         firstName: "Jane",
         lastName: "Kim",
         roleId: 1
@@ -52,11 +54,12 @@ describe('/POST Users', () => {
 
   it('it should not create a user with an existing email', (done) => {
     chai.request(app)
-      .post('/api/user')
+      .post('/api/users')
       .send({
         email: "johndoe@gmail.com",
         password: "rT$^qweet#2t",
         password_confirmation: "rT$^qweet#2t",
+        userName: "existingmail",
         firstName: "Jane",
         lastName: "Mary",
         roleId: 1
@@ -71,11 +74,12 @@ describe('/POST Users', () => {
 
   it('it should not create a user if password and password_confirmation do not match', (done) => {
     chai.request(app)
-      .post('/api/user')
+      .post('/api/users')
       .send({
         email: "finhost@gmail.com",
         password: "onepassword",
         password_confirmation: "diffpassword",
+        userName: "finhost",
         firstName: "Fin",
         lastName: "Host",
         roleId: 1
@@ -90,11 +94,12 @@ describe('/POST Users', () => {
 
   it('it should not create a user if password length is less than 6 characters', (done) => {
     chai.request(app)
-      .post('/api/user')
+      .post('/api/users')
       .send({
         email: "JrHarmony@gmail.com",
         password: "one",
         password_confirmation: "one",
+        userName: "jrharmony",
         firstName: "Jr",
         lastName: "Harmony",
         roleId: 1
@@ -109,11 +114,12 @@ describe('/POST Users', () => {
 
   it('it should not create a user if email is invalid', (done) => {
     chai.request(app)
-      .post('/api/user')
+      .post('/api/users')
       .send({
         email: "Invalidemail.com",
         password: "onetwo",
         password_confirmation: "onetwo",
+        userName: "jrmony",
         firstName: "Jr",
         lastName: "Harmony",
         roleId: 1
@@ -128,7 +134,7 @@ describe('/POST Users', () => {
 
   it('it should login a user and generate a jwt token for the user', (done) => {
     chai.request(app)
-      .post('/api/user/login')
+      .post('/api/users/login')
       .send({
         email: "johndoe@gmail.com",
         password: "youcantseeme",
@@ -144,7 +150,7 @@ describe('/POST Users', () => {
 
   it('it should not login a user with wrong password', (done) => {
     chai.request(app)
-      .post('/api/user/login')
+      .post('/api/users/login')
       .send({
         email: "johndoe@gmail.com",
         password: "WRONGPASSWORD",
@@ -158,7 +164,7 @@ describe('/POST Users', () => {
 
   it('it should not login a user with a wrong email ', (done) => {
     chai.request(app)
-      .post('/api/user/login')
+      .post('/api/users/login')
       .send({
         email: "WRONGEMAIL@gmail.com",
         password: "WRONGPASSWORD",
@@ -184,7 +190,7 @@ const token = UserController.GenerateToken(user);
 describe('/GET Users', () => {
   it('it should GET all the users when a token is provided', (done) => {
     chai.request(app)
-      .get('/api/user')
+      .get('/api/users')
       .set('x-access-token', token)
       .end((err, res) => {
         res.should.have.status(200);
@@ -194,9 +200,32 @@ describe('/GET Users', () => {
       });
   });
 
+  it('it should GET users specified by the offset and limit', (done) => {
+    chai.request(app)
+      .get('/api/users/?limit=5&&offset=1')
+      .set('x-access-token', token)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('array');
+        expect(res.body.length).eql(1);
+        done();
+      });
+  });
+
+  it('it should return a message when no users are found while using offset and or limit', (done) => {
+    chai.request(app)
+      .get('/api/users/?limit=5&&offset=3')
+      .set('x-access-token', token)
+      .end((err, res) => {
+        res.should.have.status(400);
+        expect(res.body.message).eql("No users exist currently");
+        done();
+      });
+  });
+
   it('it should not get users if no token is provided', (done) => {
     chai.request(app)
-      .get('/api/user')
+      .get('/api/users')
       .end((err, res) => {
         res.should.have.status(403);
         expect(res.body.message).to.contain("No token provided");
@@ -206,7 +235,7 @@ describe('/GET Users', () => {
 
   it('it should Get a secific user given the userId', (done) => {
     chai.request(app)
-      .get('/api/user/' + user.id)
+      .get('/api/users/' + user.id)
       .set('x-access-token', token)
       .end((err, res) => {
         res.should.have.status(200);
@@ -217,7 +246,7 @@ describe('/GET Users', () => {
 
   it('it should return a message if the userId given is invalid', (done) => {
     chai.request(app)
-      .get('/api/user/' + 59)
+      .get('/api/users/' + 59)
       .set('x-access-token', token)
       .end((err, res) => {
         res.should.have.status(404);
@@ -233,7 +262,7 @@ describe('/GET Users', () => {
 describe('/PUT users', () => {
   it('It should update a users details', (done) => {
     chai.request(app)
-      .put('/api/user/' + user.id + '/update')
+      .put('/api/users/' + user.id + '/update')
       .set('x-access-token', token)
       .send({
         email: "johndoeNew@gmail.com",
@@ -249,7 +278,7 @@ describe('/PUT users', () => {
 
   it('It should return a message when the user is not found', (done) => {
     chai.request(app)
-      .put('/api/user/' + 30 + '/update')
+      .put('/api/users/' + 30 + '/update')
       .set('x-access-token', token)
       .send({
         email: "usernotfoundw@gmail.com",
@@ -264,12 +293,41 @@ describe('/PUT users', () => {
 });
 
 /*
+ * Test the /search route
+ */
+describe('/search users', () => {
+  it('It should search for users given a query', (done) => {
+    chai.request(app)
+      .get('/api/search/users')
+      .set('x-access-token', token)
+      .query({username: 'e'})
+      .end((err, res) => {
+        res.should.have.status(200);
+        expect(res.body.length).eql(2);
+        done();
+      });
+  });
+
+  it('It should return a message when the no users maching the search exist', (done) => {
+    chai.request(app)
+      .get('/api/search/users')
+      .set('x-access-token', token)
+      .query({username: 'xxx'})
+      .end((err, res) => {
+        res.should.have.status(400);
+        expect(res.body.message).eql("No users match that search criteria");
+        done();
+      });
+  });
+});
+
+/*
  * Test the /delete route
  */
 describe('/delete users', () => {
   it('It should delete a user given a userId', (done) => {
     chai.request(app)
-      .delete('/api/user/' + 2 + '/delete')
+      .delete('/api/users/' + 2 + '/delete')
       .set('x-access-token', token)
       .end((err, res) => {
         res.should.have.status(200);
@@ -280,7 +338,7 @@ describe('/delete users', () => {
 
   it('It should return a message when the user is not found', (done) => {
     chai.request(app)
-      .delete('/api/user/' + 30 + '/delete')
+      .delete('/api/users/' + 30 + '/delete')
       .set('x-access-token', token)
       .end((err, res) => {
         res.should.have.status(404);
@@ -289,3 +347,5 @@ describe('/delete users', () => {
       });
   });
 });
+
+
