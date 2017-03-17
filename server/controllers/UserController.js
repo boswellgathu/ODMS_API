@@ -41,7 +41,7 @@ class UserController {
       })
       .then((users) => {
         if (users.length < 1)
-          return res.status(200).send({
+          return res.status(400).send({
             message: 'No users exist currently'
           })
         return res.status(200).send(users);

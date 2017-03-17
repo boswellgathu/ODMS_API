@@ -123,6 +123,35 @@ describe('/GET Documents', () => {
       });
   });
 
+  it('it should GET documents specified by the offset and limit query', (done) => {
+    chai.request(app)
+      .get('/api/documents')
+      .query({
+        limit: 5,
+        offset: 0
+      })
+      .end((err, res) => {
+        console.log(res.body)
+        res.should.have.status(200);
+        expect(res.body.length).eql(1);
+        done();
+      });
+  });
+
+  it('it should return a message if no documents are returned', (done) => {
+    chai.request(app)
+      .get('/api/documents')
+      .query({
+        limit: 5,
+        offset: 1
+      })
+      .end((err, res) => {
+        res.should.have.status(200);
+        expect(res.body.message).eql('No documents exist currently');
+        done();
+      });
+  });
+
   it('it should GET all documents of a certain user when the userId is provided', (done) => {
     chai.request(app)
       .get('/api/users/' + user.id + '/documents' )
@@ -202,6 +231,40 @@ describe('/PUT Documents', () => {
       .end((err, res) => {
         res.should.have.status(404);
         res.body.should.have.property('message').eql('Document not found');
+        done();
+      });
+  });
+});
+
+describe('/search Documents', () => {
+  it('it should search documents given a query', (done) => {
+    chai.request(app)
+      .get("/api/search/documents/")
+      .set('x-access-token', token)
+      .query({
+        doctitle: 'title'
+      })
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('array');
+        expect(res.body[0].title).eql("Updated Doc Title");
+        expect(res.body[0].access).eql("public");
+        expect(res.body[0].id).eql(4);
+        expect(res.body[0].userId).eql(1);
+        done();
+      });
+  });
+
+  it('it should return a message if no ducuments match the query', (done) => {
+    chai.request(app)
+      .get("/api/search/documents/")
+      .set('x-access-token', token)
+      .query({
+        doctitle: 'bulaah'
+      })
+      .end((err, res) => {
+        res.should.have.status(400);
+        expect(res.body.message).eql("No documents match that search criteria");
         done();
       });
   });
