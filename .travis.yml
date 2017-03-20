@@ -5,9 +5,10 @@ services:
   - postgresql
 addons:
   postgresql: "9.4"
+before_install:
+  - npm install sequelize -g
 before_script:
   - psql -c 'create database gathudocs_test;' -U postgres
   - psql -c "CREATE USER boswellgathu;" -U postgres
-  - npm install sequelize -g
 after_script:
   - npm run coverage
