@@ -6,7 +6,7 @@ services:
 addons:
   postgresql: "9.4"
 before_script:
-  - psql -c 'create database gathudocs-test;' -U postgres
+  - psql -c 'create database gathudocs_test;' -U postgres
   - psql -c "CREATE USER boswellgathu;" -U postgres
 after_script:
   - npm run coverage
