@@ -1,9 +1,9 @@
-import RoleController from './RoleController';
-import DocController from './DocController';
-import UserController from './UserController';
-import AuthHandler from './AuthHandler';
+const RoleController  = require('./RoleController');
+const DocController = require('./DocController');
+const UserController = require('./UserController');
+const AuthHandler = require('./AuthHandler');
 
-export {
+module.exports =  {
   RoleController,
   DocController,
   UserController,

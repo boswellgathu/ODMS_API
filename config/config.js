@@ -1,10 +1,10 @@
-import dotenv from 'dotenv';
+const dotenv = require('dotenv');
 
 dotenv.config({
   silent: true
 });
 
-export default {
+module.exports = {
   secret: process.env.SECRET,
   port: process.env.PORT,
   env: process.env.NODE_ENV

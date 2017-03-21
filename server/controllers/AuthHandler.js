@@ -1,6 +1,6 @@
-import jwt from 'jsonwebtoken';
-import db from '../models';
-import config from '../../config/config';
+const jwt = require('jsonwebtoken');
+const db = require('../models');
+const config = require('../../config/config');
 
 const User = db.User;
 const secret = config.secret;
@@ -59,4 +59,4 @@ class AuthHandler {
     }
   }
 }
-export default AuthHandler;
+module.exports = AuthHandler;

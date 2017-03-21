@@ -2,7 +2,7 @@
   "development": {
     "username": "boswellgathu",
     "password": null,
-    "database": "gathudocs-dev",
+    "database": "gathudocs_dev",
     "host": "127.0.0.1",
     "port": 5432,
     "dialect": "postgres"
@@ -10,7 +10,7 @@
   "test": {
     "username": "boswellgathu",
     "password": null,
-    "database": "gathudocs-test",
+    "database": "gathudocs_test",
     "host": "127.0.0.1",
     "port": 5432,
     "dialect": "postgres",
@@ -19,7 +19,7 @@
   "production": {
     "username": "root",
     "password": null,
-    "database": "database_production",
+    "database": "gathudocs_production",
     "host": "127.0.0.1",
     "dialect": "postgres"
   }
