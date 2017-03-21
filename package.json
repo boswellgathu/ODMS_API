@@ -5,8 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start:dev": "nodemon server.js --exec babel-node --presets es2015",
-    "test": "sequelize db:migrate:undo:all && sequelize db:migrate && ./node_modules/.bin/mocha --require babel-register --reporter spec ./server/tests/*Spec.js --timeout 10000",
-    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha --require babel-register --reporter --report lcovonly -- -R spec ./server/tests/*Spec.js && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+    "test": "sequelize db:migrate:undo:all && sequelize db:migrate && istanbul cover ./node_modules/.bin/mocha --require babel-register --reporter --report lcovonly -- -R spec ./server/tests/*Spec.js",
+    "coverage": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
   "repository": {
     "type": "git",
@@ -43,6 +43,7 @@
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
     "coveralls": "^2.12.0",
+    "istanbul": "^0.4.5",
     "mocha": "^3.2.0",
     "nodemon": "^1.11.0"
   }

@@ -1,8 +1,8 @@
-import express from 'express';
-import logger from 'morgan';
-import bodyParser from 'body-parser';
-import Routes from './server/routes';
-import config from './config/config';
+const express = require('express');
+const logger = require('morgan');
+const bodyParser = require('body-parser');
+const Routes = require('./server/routes');
+const config = require('./config/config');
 
 const port = config.port;
 const app = express();
