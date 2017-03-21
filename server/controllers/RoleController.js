@@ -1,8 +1,8 @@
-import db from '../models';
+const db = require('../models');
 
 const Role = db.Role;
 
-export default class RoleController {
+class RoleController {
   static CreateRole(req, res) {
     return Role
       .create({
@@ -18,3 +18,5 @@ export default class RoleController {
       .catch(error => res.status(400).send(error));
   }
 }
+
+module.exports = RoleController;

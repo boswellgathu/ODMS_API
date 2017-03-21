@@ -1,8 +1,6 @@
-import chai from 'chai';
-import chaiHttp from 'chai-http';
-import UserController from '../controllers/UserController';
-import UserSeed from '../SeedData/UserSeed';
-// import app from '../../server';
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const UserController = require('../controllers/UserController');
 const app = require('../../server');
 const should = chai.should();
 const expect = require('chai').expect;

@@ -1,4 +1,4 @@
-import db from '../models'
+const db = require('../models');
 const Document = db.Document;
 
 class DocController {
@@ -128,4 +128,4 @@ class DocController {
   }
 }
 
-export default DocController;
+module.exports =  DocController;

@@ -1,6 +1,6 @@
-import db from '../models';
-import jwt from 'jsonwebtoken';
-import config from '../../config/config';
+const jwt = require('jsonwebtoken');
+const db = require('../models');
+const config = require('../../config/config');
 
 const secret = config.secret;
 const User = db.User;
@@ -168,4 +168,4 @@ class UserController {
   }
 }
 
-export default UserController;
+module.exports = UserController;

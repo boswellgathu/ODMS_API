@@ -1,15 +1,13 @@
-import {
-  UserController,
-  RoleController,
-  DocController,
-  AuthHandler
-} from '../controllers'
+const UserController = require('../controllers/UserController');
+const RoleController = require('../controllers/RoleController');
+const DocController = require('../controllers/DocController');
+const AuthHandler = require('../controllers/AuthHandler');
 
 const Admin = AuthHandler.VerifyAdmin;
 const User = AuthHandler.VerifyUser;
 const Auth = AuthHandler.VerifyToken;
 
-export default function(app) {
+module.exports = (app) => {
   app.post('/api/users', UserController.CreateUser);
   app.get('/api/users', Auth, Admin, UserController.ListUsers);
   app.get('/api/users/:UserId', Auth, User, UserController.RetrieveUser);
