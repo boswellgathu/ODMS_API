@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start:dev": "nodemon server.js",
-    "test": "sequelize db:migrate:undo:all && sequelize db:migrate && ./node_modules/istanbul/lib/cli.js cover ./node_modules/.bin/mocha --report lcovonly -- -R spec ./server/tests/*Spec.js",
+    "test": "sequelize db:migrate:undo:all && sequelize db:migrate && ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --report lcovonly -- -R spec ./server/tests/*Spec.js",
     "coverage": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
   "repository": {
