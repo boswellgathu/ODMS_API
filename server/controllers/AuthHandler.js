@@ -21,7 +21,7 @@ class AuthHandler {
       });
     } else {
       return res.status(403).send({
-        message: 'No token provided.'
+        message: "No token provided."
       });
     }
   }

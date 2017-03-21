@@ -34,6 +34,19 @@ describe('/POST Roles', () => {
       });
   });
 
+  it('it should create a new role', (done) => {
+    chai.request(app)
+      .post('/api/role')
+      .send({
+        title: "admin"
+      })
+      .end((err, res) => {
+        res.should.have.status(201);
+        res.body.should.be.a('object');
+        done();
+      });
+  });
+
   it('it should not create an invalid role', (done) => {
     chai.request(app)
       .post('/api/role')
