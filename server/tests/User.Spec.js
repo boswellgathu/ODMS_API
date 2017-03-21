@@ -288,6 +288,36 @@ describe('/PUT users', () => {
         done();
       });
   });
+
+  it('It should update a user\'s password', (done) => {
+    chai.request(app)
+      .put('/api/users/' + user.id + '/update')
+      .set('x-access-token', token)
+      .send({
+        password: 'updatedPassword',
+        password_confirmation: 'updatedPassword'
+      })
+      .end((err, res) => {
+        res.should.have.status(200);
+        expect(res.body.email).eql("johndoeNew@gmail.com");
+        expect(res.body.lastName).eql("doeNew");
+        done();
+      });
+  });
+
+  it('It should fail to update a user\'s password when password and password_confirmation do not match', (done) => {
+    chai.request(app)
+      .put('/api/users/' + user.id + '/update')
+      .set('x-access-token', token)
+      .send({
+        password: 'updatedPassword',
+        password_confirmation: 'do not match'
+      })
+      .end((err, res) => {
+        res.should.have.status(400);
+        done();
+      });
+  });
 });
 
 /*

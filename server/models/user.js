@@ -73,9 +73,13 @@ module.exports = (sequelize, DataTypes) => {
     user.password = HashedPassword;
   })
   User.beforeUpdate((user, options) => {
-    if (user.password) {
+    if (user.password && user.password_confirmation) {
+      if (user.password !== user.password_confirmation) {
+        throw new Error('Password and Password_confirmation do not match!')
+      }
       const HashedPassword = Bcrypt.hashSync(user.password, Bcrypt.genSaltSync(10), null)
       user.password = HashedPassword;
+      user.password_confirmation = null;
     }
   })
   return User;
