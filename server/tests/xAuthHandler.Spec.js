@@ -61,7 +61,7 @@ const TokenInvalidRole = UserController.GenerateToken(UserInvalidRole);
 describe('VerifyUser Middleware', () => {
   it('it should not Get all users if the role provided is not an admin or user role', (done) => {
     chai.request(app)
-      .get('/api/users')
+      .get('/api/users/1')
       .set('x-access-token', TokenInvalidRole)
       .end((err, res) => {
         res.should.have.status(403);

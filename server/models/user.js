@@ -49,22 +49,12 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       }
     }, {
-      validate: {
-        PasswordCheck: () => {
-          if (User.password !== User.password_confirmation) {
-            throw new Error('Password and Password_confirmation do not match!')
-          }
-        }
-      },
       classMethods: {
         associate: (models) => {
           User.hasMany(models.Document, {
             foreignKey: 'userId',
             onDelete: 'CASCADE'
           });
-        },
-        GenerateHashPassword(password) {
-          return Bcrypt.hashSync(password, Bcrypt.genSaltSync(10), null);
         }
       },
       instanceMethods: {
