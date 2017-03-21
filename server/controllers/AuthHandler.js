@@ -6,18 +6,6 @@ const User = db.User;
 const secret = config.secret;
 
 class AuthHandler {
-  static UserInfo(user) {
-    return {
-      role: user.roleId,
-      email: user.email,
-      userId: user.id
-    }
-  }
-  static GenerateToken(user) {
-    return jwt.sign(UserInfo(user), secret, {
-      expiresIn: 60 * 60 * 24 // 24 Hours
-    });
-  }
   static VerifyToken(req, res, next) {
     const token = req.body.token || req.query.token || req.headers['x-access-token'];
     if (token) {
