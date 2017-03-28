@@ -15,12 +15,12 @@ module.exports = (app) => {
   app.put('/api/users/:UserId/update', Auth, User, UserController.UpdateUser);
   app.delete('/api/users/:UserId/delete', Auth, Admin, UserController.DeleteUser);
   app.post('/api/users/login', UserController.Login);
-  app.post('/api/users/logout', UserController.Logout);
+  app.post('/api/users/logout', Auth, UserController.Logout);
   app.post('/api/role', RoleController.CreateRole);
   app.get('/api/role', RoleController.GetRoles);
   app.post('/api/documents', Auth, User, DocController.CreateDoc);
   app.get('/api/documents', DocController.ListDocs);
-  app.get('/api/documents/:DocId', Auth, User, DocController.GetDocs);
+  app.get('/api/documents/:DocId', Auth, User, DocController.GetDoc);
   app.get('/api/search/documents', Auth, User, DocController.SearchDocs);
   app.put('/api/documents/:DocId', Auth, User, DocController.UpdateDoc);
   app.delete('/api/documents/:DocId', Auth, User, DocController.DeleteDoc);

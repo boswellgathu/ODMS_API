@@ -73,12 +73,7 @@ class UserController {
   }
   static UpdateUser(req, res) {
     return User
-      .findById(req.params.UserId, {
-        include: [{
-          model: Document,
-          as: 'Documents',
-        }],
-      })
+      .findById(req.params.UserId)
       .then(user => {
         if (!user) {
           return res.status(404).send({
@@ -89,7 +84,7 @@ class UserController {
           .update(req.body, {
             fields: Object.keys(req.body)
           })
-          .then(() => res.status(200).send(user)) // Send back the updated todo.
+          .then(() => res.status(200).send(user))
           .catch((error) => res.status(400).send(error));
       })
       .catch((error) => res.status(400).send(error));
@@ -163,8 +158,12 @@ class UserController {
       })
       .catch(error => res.status(400).send(error));
   }
+
   static Logout(req, res) {
-    console.log('a');
+    req.deoded = null;
+    return res.status(200).send({
+      message: 'user succesfully logged out',
+    });
   }
 }
 

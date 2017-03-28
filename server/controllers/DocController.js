@@ -39,7 +39,7 @@ class DocController {
     .then(documents => res.status(200).send(documents))
     .catch(error => res.status(400).send(error));
   }
-  static GetDocs(req, res) {
+  static GetDoc(req, res) {
     return Document
       .findById(req.params.DocId)
       .then(document => {

@@ -103,6 +103,23 @@ describe('/POST Documents', () => {
         done();
       });
   });
+
+  it('it should not create a new document when neither title or content is provided', (done) => {
+    chai.request(app)
+      .post('/api/documents')
+      .set('x-access-token', token)
+      .send({
+        content: "Comments from the mariatos",
+        userId: user.id
+      })
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.have.property('name').eql('SequelizeValidationError');
+        expect(res.body.message).eql('notNull Violation: title cannot be null');
+        done();
+      });
+  });
+
 });
 
 describe('/GET Documents', () => {
@@ -129,7 +146,6 @@ describe('/GET Documents', () => {
         offset: 0
       })
       .end((err, res) => {
-        console.log(res.body)
         res.should.have.status(200);
         expect(res.body.length).eql(1);
         done();
@@ -146,6 +162,21 @@ describe('/GET Documents', () => {
       .end((err, res) => {
         res.should.have.status(200);
         expect(res.body.message).eql('No documents exist currently');
+        done();
+      });
+  });
+
+  it('it should fail if either offset or limit is not an integer', (done) => {
+    chai.request(app)
+      .get('/api/documents')
+      .query({
+        limit: 'number',
+        offset: 1
+      })
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.have.property('name').eql('SequelizeDatabaseError');
+        expect(res.body.message).eql('invalid input syntax for integer: "number"');
         done();
       });
   });
@@ -198,6 +229,18 @@ describe('/GET Documents', () => {
         done();
       });
   });
+
+it('it should not GET a document when the DocId specified is not an integer', (done) => {
+    chai.request(app)
+      .get('/api/documents/string' )
+      .set('x-access-token', token)
+      .end((err, res) => {
+        res.should.have.status(400);
+        expect(res.body.name).eql('SequelizeDatabaseError');
+        res.body.should.have.property('message').eql('invalid input syntax for integer: "string"');
+        done();
+      });
+  });
 });
 
 describe('/PUT Documents', () => {
@@ -232,6 +275,23 @@ describe('/PUT Documents', () => {
         done();
       });
   });
+
+  it('it should not UPDATE a document when the DocId specified is not an integer', (done) => {
+    chai.request(app)
+      .put('/api/documents/string')
+      .set('x-access-token', token)
+      .send({
+        title: 'Updated Doc Title'
+      })
+      .end((err, res) => {
+        res.should.have.status(400);
+        expect(res.body.name).eql('SequelizeDatabaseError');
+        res.body.should.have.property('message').eql('invalid input syntax for integer: "string"');
+        done();
+      });
+  });
+
+
 });
 
 describe('/search Documents', () => {
@@ -287,6 +347,18 @@ describe('/DELETE Documents', () => {
       .end((err, res) => {
         res.should.have.status(404);
         res.body.should.have.property('message').eql('Document not found');
+        done();
+      });
+  });
+
+  it('it should not DELETE a document when the DocId specified is not an integer', (done) => {
+    chai.request(app)
+      .delete('/api/documents/string')
+      .set('x-access-token', token)
+      .end((err, res) => {
+        res.should.have.status(400);
+        expect(res.body.name).eql('SequelizeDatabaseError');
+        res.body.should.have.property('message').eql('invalid input syntax for integer: "string"');
         done();
       });
   });
