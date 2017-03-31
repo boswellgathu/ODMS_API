@@ -11,6 +11,7 @@ class DocController {
       }))
       .catch(error => res.status(400).send(error));
   }
+
   static ListDocs(req, res) {
     if (req.query.limit || req.query.offset)
       return Document
@@ -39,6 +40,7 @@ class DocController {
     .then(documents => res.status(200).send(documents))
     .catch(error => res.status(400).send(error));
   }
+
   static GetDoc(req, res) {
     return Document
       .findById(req.params.DocId)
@@ -52,6 +54,7 @@ class DocController {
       })
       .catch(error => res.status(400).send(error));
   }
+
   static UpdateDoc(req, res) {
     return Document
       .findById(req.params.DocId)
@@ -70,6 +73,7 @@ class DocController {
       })
       .catch((error) => res.status(400).send(error));
   }
+
   static DeleteDoc(req, res) {
     return Document
       .findById(req.params.DocId)
@@ -88,6 +92,7 @@ class DocController {
       })
       .catch(error => res.status(400).send(error));
   }
+
   static RetrieveDocsByUser(req, res) {
     return Document
       .findAll({
@@ -105,6 +110,7 @@ class DocController {
       })
       .catch(error => res.status(400).send(error));
   }
+
   static SearchDocs(req, res) {
     return Document
       .findAll({

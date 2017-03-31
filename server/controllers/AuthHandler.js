@@ -28,7 +28,6 @@ class AuthHandler {
   static VerifyAdmin(req, res, next) {
     const Role = req.decoded.roleId;
     if (Role && Role === 1) {
-      // TODO set the role to a name
       next();
     } else {
       return res.status(403).send({
