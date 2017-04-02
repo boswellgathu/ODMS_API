@@ -29,7 +29,7 @@ describe('/POST Users', () => {
       });
   });
 
-  it('it should make sure a token is creating when a new user is created', (done) => {
+  it('it should make sure a token is created when a new user is created', (done) => {
     chai.request(app)
       .post('/api/users')
       .send({
@@ -173,6 +173,20 @@ describe('/POST Users', () => {
         done();
       });
   });
+
+  it('it should not login a user when either password or email is not provided', (done) => {
+    chai.request(app)
+      .post('/api/users/login')
+      .send({
+        email: "johndoe@gmail.com"
+      })
+      .end((err, res) => {
+        res.should.have.status(400);
+        expect(res.error.text).to.contain('Incorrect arguments');
+        done();
+      });
+  });
+
 });
 
 /*
@@ -231,6 +245,17 @@ describe('/GET Users', () => {
       });
   });
 
+  it('it should not return users when offset or limit is not an integer', (done) => {
+    chai.request(app)
+      .get('/api/users/?limit=tfdnng&&offset=the')
+      .set('x-access-token', token)
+      .end((err, res) => {
+        res.should.have.status(400);
+        expect(res.body.message).eql('invalid input syntax for integer: "the"');
+        done();
+      });
+  });
+
   it('it should Get a secific user given the userId', (done) => {
     chai.request(app)
       .get('/api/users/' + user.id)
@@ -252,6 +277,18 @@ describe('/GET Users', () => {
         done();
       });
   });
+
+  it('it should not return a user when userId specified is not integer', (done) => {
+    chai.request(app)
+      .get('/api/users/' + 'ther')
+      .set('x-access-token', token)
+      .end((err, res) => {
+        res.should.have.status(400);
+        expect(res.body.message).eql( 'invalid input syntax for integer: "ther"');
+        done();
+      });
+  });
+
 });
 
 /*
@@ -288,6 +325,48 @@ describe('/PUT users', () => {
         done();
       });
   });
+
+  it('It should update a user\'s password', (done) => {
+    chai.request(app)
+      .put('/api/users/' + user.id + '/update')
+      .set('x-access-token', token)
+      .send({
+        password: 'updatedPassword',
+        password_confirmation: 'updatedPassword'
+      })
+      .end((err, res) => {
+        res.should.have.status(200);
+        expect(res.body.email).eql("johndoeNew@gmail.com");
+        expect(res.body.lastName).eql("doeNew");
+        done();
+      });
+  });
+
+  it('It should fail to update a user\'s password when password and password_confirmation do not match', (done) => {
+    chai.request(app)
+      .put('/api/users/' + user.id + '/update')
+      .set('x-access-token', token)
+      .send({
+        password: 'updatedPassword',
+        password_confirmation: 'do not match'
+      })
+      .end((err, res) => {
+        res.should.have.status(400);
+        done();
+      });
+  });
+
+  it('It should fail to update when the userId provided is not an integer', (done) => {
+    chai.request(app)
+      .put('/api/users/' + 'haha' + '/update')
+      .set('x-access-token', token)
+      .end((err, res) => {
+        res.should.have.status(400);
+        expect(res.body.message).eql('invalid input syntax for integer: "haha"');
+        done();
+      });
+  });
+
 });
 
 /*
@@ -341,6 +420,34 @@ describe('/delete users', () => {
       .end((err, res) => {
         res.should.have.status(404);
         expect(res.body.message).eql("user Not Found");
+        done();
+      });
+  });
+
+  it('It should fail if userid provided is not an integer', (done) => {
+    chai.request(app)
+      .delete('/api/users/' + 'there' + '/delete')
+      .set('x-access-token', token)
+      .end((err, res) => {
+        res.should.have.status(400);
+        expect(res.body.message).eql('invalid input syntax for integer: "there"');
+        done();
+      });
+  });
+
+});
+
+/*
+ * Test the /logout route
+ */
+describe('/logout users', () => {
+  it('It should logout a user', (done) => {
+    chai.request(app)
+      .post('/api/users/logout')
+      .set('x-access-token', token)
+      .end((err, res) => {
+        res.should.have.status(200);
+        expect(res.body.message).eql("user succesfully logged out");
         done();
       });
   });

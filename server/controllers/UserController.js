@@ -14,11 +14,13 @@ class UserController {
       id: user.id
     }
   }
+
   static GenerateToken(user) {
     return jwt.sign(UserController.UserInfo(user), secret, {
       expiresIn: '24h'
     });
   }
+
   static CreateUser(req, res) {
     return User
       .create(req.body)
@@ -30,8 +32,9 @@ class UserController {
           user: user
         })
       })
-      .catch(error => res.status(400).send(error)); // res.status(400).send(error)
+      .catch(error => res.status(400).send(error));
   }
+
   static ListUsers(req, res) {
     if (req.query.limit || req.query.offset)
       return User
@@ -53,6 +56,7 @@ class UserController {
       .then(user => res.status(200).send(user))
       .catch(error => res.status(400).send(error));
   }
+
   static RetrieveUser(req, res) {
     return User
       .findById(req.params.UserId, {
@@ -71,14 +75,10 @@ class UserController {
       })
       .catch(error => res.status(400).send(error));
   }
+
   static UpdateUser(req, res) {
     return User
-      .findById(req.params.UserId, {
-        include: [{
-          model: Document,
-          as: 'Documents',
-        }],
-      })
+      .findById(req.params.UserId)
       .then(user => {
         if (!user) {
           return res.status(404).send({
@@ -89,11 +89,12 @@ class UserController {
           .update(req.body, {
             fields: Object.keys(req.body)
           })
-          .then(() => res.status(200).send(user)) // Send back the updated todo.
+          .then(() => res.status(200).send(user))
           .catch((error) => res.status(400).send(error));
       })
       .catch((error) => res.status(400).send(error));
   }
+
   static DeleteUser(req, res) {
     return User
       .findById(req.params.UserId)
@@ -163,8 +164,12 @@ class UserController {
       })
       .catch(error => res.status(400).send(error));
   }
+
   static Logout(req, res) {
-    console.log('a');
+    req.deoded = null;
+    return res.status(200).send({
+      message: 'user succesfully logged out',
+    });
   }
 }
 
