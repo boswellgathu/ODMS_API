@@ -55,6 +55,7 @@ class UserController {
       .create(req.body)
       .then((user) => {
         const token = UserController.GenerateToken(user);
+        user.passsword = null;
         return res.status(201).send({
           message: 'User created Succesfully', token, user });
       })
@@ -115,6 +116,7 @@ class UserController {
             message: 'user Not Found',
           });
         }
+        user.passsword = null;
         return res.status(200).send(user);
       })
       .catch(error => res.status(400).send(error));
@@ -227,6 +229,7 @@ class UserController {
       .then((user) => {
         if (user && user.Authenticate(req.body.password)) {
           const token = UserController.GenerateToken(user);
+          user.passsword = null;
           return res.status(201).send({
             message: 'User Login Succesfull', token, user});
         } else if (!user) {
