@@ -1,5 +1,44 @@
-1. if there a user does not have documents just return the empty array
-2. when verifying tokens, check if a user is in the db first
-3. roleId should be replaced with role.title since id can change but term cant
-4. For you sanity checks create a generic function to handle all your checks
-5. Do not return all
+* if there a user does not have documents just return the empty array
+
+* when verifying tokens, check if a user is in the db first
+
+* roleId should be replaced with role.title since id can change but term cant
+
+* For you sanity checks create a generic function to handle all your checks
+
+* Do not return all
+
+* Vague messages returned in edge cases eg permission denied when no token was given
+
+* Check the information returned when users or a user's information is queried eg if a regular user queries it, only return user facing information - eg name, username; if it's the admin, return more information but leave out the passwords
+
+* Don't return actual catch block errors - return the error message but not the actual error
+
+* Check status codes returned especially in edge cases
+
+* Read on how the jwt signature works and figure out how to mitigate user information access on the front end.
+
+* Be careful about returning private documents
+
+* The same user shouldn't have duplicate docs
+
+* On document search: return the title and content only; not the entire document object
+
+- Remove unnecessary information from user response
+- Catch Duplicate errors better and set them to duplicate response error
+- Make sure that status response are correct
+- Catch errors better
+- Implement this route /users/<id>/documents
+- Change search user query to /search/users/?q={username}
+- Change search documents query to /search/documents/?q={doctitle}
+- Change document middleware forbidden response to 403
+- Read on jwt signature (Send Kes a slack message or email on how to mitigate that problem)
+- Research on how to secure token
+
+* Return only necessary information in the response
+* Status codes should reflect the correct error
+* Check invalid characters
+* Another user should not update another user
+* Make search robust
+* Unique title
+* Reimplement offset and limit
