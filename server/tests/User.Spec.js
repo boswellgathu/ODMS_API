@@ -230,7 +230,7 @@ describe('/GET Users', () => {
       .get('/api/users/?limit=5&&offset=3')
       .set('x-access-token', token)
       .end((err, res) => {
-        res.should.have.status(400);
+        res.should.have.status(404);
         expect(res.body.message).eql("No users exist currently");
         done();
       });
@@ -386,13 +386,13 @@ describe('/search users', () => {
       });
   });
 
-  it('It should return a message when the no users maching the search exist', (done) => {
+  it('It should return a message when the no users matching the search exist', (done) => {
     chai.request(app)
       .get('/api/search/users')
       .set('x-access-token', token)
       .query({username: 'xxx'})
       .end((err, res) => {
-        res.should.have.status(400);
+        res.should.have.status(404);
         expect(res.body.message).eql("No users match that search criteria");
         done();
       });

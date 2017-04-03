@@ -80,7 +80,7 @@ class UserController {
       })
       .then((users) => {
         if (users.length < 1)
-          return res.status(400).send({
+          return res.status(404).send({
             message: 'No users exist currently'
           });
         return res.status(200).send(users);
@@ -201,7 +201,7 @@ class UserController {
       })
       .then((user) => {
         if (user.length < 1) {
-          return res.status(400).send({
+          return res.status(404).send({
             message: "No users match that search criteria"
           });
         }

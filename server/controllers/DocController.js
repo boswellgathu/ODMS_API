@@ -48,7 +48,7 @@ class DocController {
         })
         .then((documents) => {
           if (documents.length < 1) {
-            return res.status(200).send({
+            return res.status(404).send({
               message: 'No documents exist currently'
             });
           }
@@ -112,7 +112,7 @@ class DocController {
           .update(req.body, {
             fields: Object.keys(req.body)
           })
-          .then(() => res.status(200).send(document)) // Send back the updated todo.
+          .then(() => res.status(200).send(document))
           .catch((error) => res.status(400).send(error));
       })
       .catch((error) => res.status(400).send(error));
@@ -195,7 +195,7 @@ class DocController {
       })
       .then((documents) => {
         if (documents.length < 1) {
-          return res.status(400).send({
+          return res.status(404).send({
             message: "No documents match that search criteria"
           });
         }

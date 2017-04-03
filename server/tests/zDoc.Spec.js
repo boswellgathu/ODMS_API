@@ -160,7 +160,7 @@ describe('/GET Documents', () => {
         offset: 1
       })
       .end((err, res) => {
-        res.should.have.status(200);
+        res.should.have.status(404);
         expect(res.body.message).eql('No documents exist currently');
         done();
       });
@@ -321,7 +321,7 @@ describe('/search Documents', () => {
         doctitle: 'bulaah'
       })
       .end((err, res) => {
-        res.should.have.status(400);
+        res.should.have.status(404);
         expect(res.body.message).eql("No documents match that search criteria");
         done();
       });
