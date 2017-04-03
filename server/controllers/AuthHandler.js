@@ -93,8 +93,8 @@ class AuthHandler {
    * @returns {object} user object
    */
   static UserData(user) {
-      const {userName, email, firstName, lastName, createdAt, updatedAt} = user;
-      return {userName, email, firstName, lastName, createdAt, updatedAt};
+      const {id, userName, email, firstName, lastName, createdAt, updatedAt} = user;
+      return {id, userName, email, firstName, lastName, createdAt, updatedAt};
   }
 }
 module.exports = AuthHandler;
