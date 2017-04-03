@@ -1,15 +1,15 @@
 const RoleController = require('../controllers/RoleController');
 const AuthHandler = require('../controllers/AuthHandler');
 const express = require('express');
-const Router = express.Router();
 
 const IsAdmin = AuthHandler.VerifyAdmin;
-const IsUser = AuthHandler.VerifyUser;
 const Auth = AuthHandler.VerifyToken;
 const RoleRouter = express.Router();
 
 
-RoleRouter.post('/role', RoleController.CreateRole);
-RoleRouter.get('/role', RoleController.GetRoles);
+RoleRouter.post('/roles', Auth, IsAdmin, RoleController.CreateRole);
+RoleRouter.get('/roles', Auth, IsAdmin, RoleController.GetRoles);
+RoleRouter.put('/roles/:roleId', Auth, IsAdmin, RoleController.UpdateRole);
+RoleRouter.delete('/roles/:roleId', Auth, IsAdmin, RoleController.DeleteRole);
 
 module.exports = RoleRouter;

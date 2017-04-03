@@ -3,27 +3,23 @@ const chaiHttp = require('chai-http');
 const app = require('../../server');
 const should = chai.should();
 const expect = require('chai').expect;
+const UserController = require('../controllers/UserController');
 
 chai.use(chaiHttp);
-/*
- * Test the /GET route
- */
-describe('/GET Roles', () => {
-  it('it should GET all the roles', (done) => {
-    chai.request(app)
-      .get('/api/role')
-      .end((err, res) => {
-        res.should.have.status(200);
-        res.body.should.be.a('array');
-        done();
-      });
-  });
-});
+
+const user = {
+  roleId: 1,
+  email: 'johndoe@gmail.com',
+  id: 1
+};
+const token = UserController.GenerateToken(user);
+
 
 describe('/POST Roles', () => {
   it('it should create a new role', (done) => {
     chai.request(app)
-      .post('/api/role')
+      .post('/api/roles')
+      .set('x-access-token', token)
       .send({
         title: "user"
       })
@@ -36,7 +32,8 @@ describe('/POST Roles', () => {
 
   it('it should create a new role', (done) => {
     chai.request(app)
-      .post('/api/role')
+      .post('/api/roles')
+      .set('x-access-token', token)
       .send({
         title: "admin"
       })
@@ -49,7 +46,8 @@ describe('/POST Roles', () => {
 
   it('it should not create an invalid role', (done) => {
     chai.request(app)
-      .post('/api/role')
+      .post('/api/roles')
+      .set('x-access-token', token)
       .send({
         tgtle: "user"
       })
@@ -61,3 +59,20 @@ describe('/POST Roles', () => {
       });
   });
 });
+
+/*
+ * Test the /GET route
+ */
+describe('/GET Roles', () => {
+  it('it should GET all the roles', (done) => {
+    chai.request(app)
+      .get('/api/roles')
+      .set('x-access-token', token)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('array');
+        done();
+      });
+  });
+});
+

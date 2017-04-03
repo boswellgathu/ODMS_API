@@ -297,7 +297,7 @@ describe('/GET Users', () => {
 describe('/PUT users', () => {
   it('It should update a users details', (done) => {
     chai.request(app)
-      .put('/api/users/' + user.id + '/update')
+      .put('/api/users/' + user.id)
       .set('x-access-token', token)
       .send({
         email: "johndoeNew@gmail.com",
@@ -313,7 +313,7 @@ describe('/PUT users', () => {
 
   it('It should return a message when the user is not found', (done) => {
     chai.request(app)
-      .put('/api/users/' + 30 + '/update')
+      .put('/api/users/' + 30)
       .set('x-access-token', token)
       .send({
         email: "usernotfoundw@gmail.com",
@@ -328,7 +328,7 @@ describe('/PUT users', () => {
 
   it('It should update a user\'s password', (done) => {
     chai.request(app)
-      .put('/api/users/' + user.id + '/update')
+      .put('/api/users/' + user.id)
       .set('x-access-token', token)
       .send({
         password: 'updatedPassword',
@@ -344,7 +344,7 @@ describe('/PUT users', () => {
 
   it('It should fail to update a user\'s password when password and password_confirmation do not match', (done) => {
     chai.request(app)
-      .put('/api/users/' + user.id + '/update')
+      .put('/api/users/' + user.id)
       .set('x-access-token', token)
       .send({
         password: 'updatedPassword',
@@ -358,7 +358,7 @@ describe('/PUT users', () => {
 
   it('It should fail to update when the userId provided is not an integer', (done) => {
     chai.request(app)
-      .put('/api/users/' + 'haha' + '/update')
+      .put('/api/users/' + 'haha')
       .set('x-access-token', token)
       .end((err, res) => {
         res.should.have.status(400);
@@ -404,7 +404,7 @@ describe('/search users', () => {
 describe('/delete users', () => {
   it('It should delete a user given a userId', (done) => {
     chai.request(app)
-      .delete('/api/users/' + 2 + '/delete')
+      .delete('/api/users/' + 2)
       .set('x-access-token', token)
       .end((err, res) => {
         res.should.have.status(200);
@@ -415,7 +415,7 @@ describe('/delete users', () => {
 
   it('It should return a message when the user is not found', (done) => {
     chai.request(app)
-      .delete('/api/users/' + 30 + '/delete')
+      .delete('/api/users/' + 30)
       .set('x-access-token', token)
       .end((err, res) => {
         res.should.have.status(404);
@@ -426,7 +426,7 @@ describe('/delete users', () => {
 
   it('It should fail if userid provided is not an integer', (done) => {
     chai.request(app)
-      .delete('/api/users/' + 'there' + '/delete')
+      .delete('/api/users/' + 'there')
       .set('x-access-token', token)
       .end((err, res) => {
         res.should.have.status(400);
