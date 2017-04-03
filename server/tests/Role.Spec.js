@@ -11,7 +11,7 @@ chai.use(chaiHttp);
 describe('/GET Roles', () => {
   it('it should GET all the roles', (done) => {
     chai.request(app)
-      .get('/api/role')
+      .get('/api/roles')
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('array');
@@ -23,7 +23,7 @@ describe('/GET Roles', () => {
 describe('/POST Roles', () => {
   it('it should create a new role', (done) => {
     chai.request(app)
-      .post('/api/role')
+      .post('/api/roles')
       .send({
         title: "user"
       })
@@ -36,7 +36,7 @@ describe('/POST Roles', () => {
 
   it('it should create a new role', (done) => {
     chai.request(app)
-      .post('/api/role')
+      .post('/api/roles')
       .send({
         title: "admin"
       })
@@ -49,7 +49,7 @@ describe('/POST Roles', () => {
 
   it('it should not create an invalid role', (done) => {
     chai.request(app)
-      .post('/api/role')
+      .post('/api/roles')
       .send({
         tgtle: "user"
       })
