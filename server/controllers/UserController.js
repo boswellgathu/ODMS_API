@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const db = require('../models');
 const config = require('../../config/config');
+const UserData = require('./AuthHandler').UserData;
 
 const secret = config.secret;
 const User = db.User;
@@ -55,11 +56,11 @@ class UserController {
       .create(req.body)
       .then((user) => {
         const token = UserController.GenerateToken(user);
-        user.password = null;
         return res.status(201).send({
           message: 'User created Succesfully',
           token: token,
-          user: user });
+          user: UserData(user)
+        });
       })
       .catch(error => res.status(400).send(error));
   }
@@ -81,17 +82,19 @@ class UserController {
         offset: req.query.offset
       })
       .then((users) => {
-        if (users.length < 1)
+        if (users.length < 1) {
           return res.status(404).send({
             message: 'No users exist currently'
           });
+        }
+        users.map(UserData);
         return res.status(200).send(users);
       })
       .catch(error => res.status(400).send(error));
 
       return User
       .all()
-      .then(user => res.status(200).send(user))
+      .then(users => res.status(200).send(users.map(UserData)))
       .catch(error => res.status(400).send(error));
   }
 
@@ -118,8 +121,7 @@ class UserController {
             message: 'user Not Found',
           });
         }
-        user.password = null;
-        return res.status(200).send(user);
+        return res.status(200).send(UserData(user));
       })
       .catch(error => res.status(400).send(error));
   }
@@ -146,7 +148,7 @@ class UserController {
           .update(req.body, {
             fields: Object.keys(req.body)
           })
-          .then(() => res.status(200).send(user))
+          .then(() => res.status(200).send(UserData(user)))
           .catch((error) => res.status(400).send(error));
       })
       .catch((error) => res.status(400).send(error));
@@ -201,13 +203,13 @@ class UserController {
         },
         order: '"createdAt" DESC'
       })
-      .then((user) => {
-        if (user.length < 1) {
+      .then((users) => {
+        if (users.length < 1) {
           return res.status(404).send({
             message: "No users match that search criteria"
           });
         }
-        return res.status(200).send(user);
+        return res.status(200).send(users.map(UserData));
       })
       .catch(error => res.status(400).send(error));
   }
@@ -231,9 +233,8 @@ class UserController {
       .then((user) => {
         if (user && user.Authenticate(req.body.password)) {
           const token = UserController.GenerateToken(user);
-          user.password = null;
           return res.status(201).send({
-            message: 'User Login Succesfull', token, user});
+            message: 'User Login Succesfull', token, user: UserData(user)});
         } else if (!user) {
           return res.status(401).send({
             message: 'Email does not Exist',

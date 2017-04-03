@@ -83,5 +83,18 @@ class AuthHandler {
       });
     }
   }
+
+  /**
+   * UserData
+   *
+   * returns user's Data
+   *
+   * @param {object} user The user object
+   * @returns {object} user object
+   */
+  static UserData(user) {
+      const {userName, email, firstName, lastName, createdAt, updatedAt} = user;
+      return {userName, email, firstName, lastName, createdAt, updatedAt};
+  }
 }
 module.exports = AuthHandler;
