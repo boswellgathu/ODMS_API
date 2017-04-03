@@ -448,7 +448,7 @@ describe('/logout users', () => {
       .set('x-access-token', token)
       .end((err, res) => {
         res.should.have.status(200);
-        expect(res.body.message).eql("user succesfully logged out");
+        expect(res.body.message).eql("user successfully logged out");
         done();
       });
   });

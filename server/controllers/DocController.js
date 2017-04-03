@@ -51,8 +51,8 @@ class DocController {
             return res.status(200).send({
               message: 'No documents exist currently'
             });
-            return res.status(200).send(documents);
           }
+            return res.status(200).send(documents);
         })
         .catch(error => res.status(400).send(error));
     }
