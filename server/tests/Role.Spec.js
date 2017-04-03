@@ -14,7 +14,9 @@ const user = {
 };
 const token = UserController.GenerateToken(user);
 
-
+/*
+ * Test the /POST route
+ */
 describe('/POST Roles', () => {
   it('it should create a new role', (done) => {
     chai.request(app)

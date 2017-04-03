@@ -1,7 +1,22 @@
 const db = require('../models');
 const Document = db.Document;
 
+/**
+ * DocController
+ *
+ * Creates the document controller
+ * @class
+ */
 class DocController {
+  /**
+   * createDoc
+   *
+   * Creates a new document
+   *
+   * @param {object} req The request object
+   * @param {object} res The response object
+   * @returns {object} res The document created
+   */
   static CreateDoc(req, res) {
     return Document
       .create(req.body)
@@ -12,8 +27,17 @@ class DocController {
       .catch(error => res.status(400).send(error));
   }
 
+  /**
+   * ListDoc
+   *
+   * Creates a new document
+   *
+   * @param {object} req The request object
+   * @param {object} res The response object
+   * @returns {object} res The list of documents found
+   */
   static ListDocs(req, res) {
-    if (req.query.limit || req.query.offset)
+    if (req.query.limit || req.query.offset) {
       return Document
         .findAll({
           where: {
@@ -23,13 +47,15 @@ class DocController {
           offset: req.query.offset
         })
         .then((documents) => {
-          if (documents.length < 1)
+          if (documents.length < 1) {
             return res.status(200).send({
               message: 'No documents exist currently'
-            })
-          return res.status(200).send(documents);
+            });
+            return res.status(200).send(documents);
+          }
         })
         .catch(error => res.status(400).send(error));
+    }
 
     return Document
       .findAll({
@@ -41,6 +67,15 @@ class DocController {
     .catch(error => res.status(400).send(error));
   }
 
+  /**
+   * GetDoc
+   *
+   * gets a specified document
+   *
+   * @param {object} req The request object
+   * @param {object} res The response object
+   * @returns {object} res The document got
+   */
   static GetDoc(req, res) {
     return Document
       .findById(req.params.DocId)
@@ -55,6 +90,15 @@ class DocController {
       .catch(error => res.status(400).send(error));
   }
 
+  /**
+   * UpdateDoc
+   *
+   * Updates an existing document
+   *
+   * @param {object} req The request object
+   * @param {object} res The response object
+   * @returns {object} res The updated document
+   */
   static UpdateDoc(req, res) {
     return Document
       .findById(req.params.DocId)
@@ -74,6 +118,15 @@ class DocController {
       .catch((error) => res.status(400).send(error));
   }
 
+  /**
+   * DeleteDoc
+   *
+   * Creates a new document
+   *
+   * @param {object} req The request object
+   * @param {object} res The response object
+   * @returns {object} res success message
+   */
   static DeleteDoc(req, res) {
     return Document
       .findById(req.params.DocId)
@@ -93,6 +146,15 @@ class DocController {
       .catch(error => res.status(400).send(error));
   }
 
+  /**
+   * RetrieveDocsByUser
+   *
+   * Gets all documents by a certain user
+   *
+   * @param {object} req The request object
+   * @param {object} res The response object
+   * @returns {object} res list of all documents found
+   */
   static RetrieveDocsByUser(req, res) {
     return Document
       .findAll({
@@ -111,6 +173,15 @@ class DocController {
       .catch(error => res.status(400).send(error));
   }
 
+  /**
+   * SearchDocs
+   *
+   * search for docs matching the search criteria
+   *
+   * @param {object} req The request object
+   * @param {object} res The response object
+   * @returns {object} res list of all documents found
+   */
   static SearchDocs(req, res) {
     return Document
       .findAll({
@@ -126,7 +197,7 @@ class DocController {
         if (documents.length < 1) {
           return res.status(400).send({
             message: "No documents match that search criteria"
-          })
+          });
         }
         return res.status(200).send(documents);
       })

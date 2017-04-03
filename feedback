@@ -1,0 +1,5 @@
+1. if there a user does not have documents just return the empty array
+2. when verifying tokens, check if a user is in the db first
+3. roleId should be replaced with role.title since id can change but term cant
+4. For you sanity checks create a generic function to handle all your checks
+5. Do not return all

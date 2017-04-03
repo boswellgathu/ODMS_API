@@ -7,6 +7,9 @@ const expect = require('chai').expect;
 
 chai.use(chaiHttp);
 
+/*
+ * Test the /POST route
+ */
 describe('/POST Users', () => {
   it('it should create a new user', (done) => {
     chai.request(app)
@@ -84,8 +87,6 @@ describe('/POST Users', () => {
       })
       .end((err, res) => {
         res.should.have.status(400);
-        // expect(res.body.name).to.contain("SequelizeUniqueConstraintError");
-        // expect(res.body.errors[0].message).to.contain("email must be unique");
         done();
       });
   });

@@ -2,7 +2,22 @@ const db = require('../models');
 
 const Role = db.Role;
 
+/**
+ * RoleController
+ *
+ * Creates the document controller
+ * @class
+ */
 class RoleController {
+  /**
+   * CreateRole
+   *
+   * create a role
+   *
+   * @param {object} req The request object
+   * @param {object} res The response object
+   * @returns {object} role object created
+   */
   static CreateRole(req, res) {
     return Role
       .create({
@@ -12,6 +27,15 @@ class RoleController {
       .catch(error => res.status(400).send(error));
   }
 
+  /**
+   * GetRoles
+   *
+   * Gets existing roles
+   *
+   * @param {object} req The request object
+   * @param {object} res The response object
+   * @returns {object} list of roles found
+   */
   static GetRoles(req, res) {
     return Role
       .all()
@@ -19,6 +43,15 @@ class RoleController {
       .catch(error => res.status(400).send(error));
   }
 
+  /**
+   * UpdateRole
+   *
+   * Updates a role
+   *
+   * @param {object} req The request object
+   * @param {object} res The response object
+   * @returns {object} role object updated
+   */
   static UpdateRole(req, res) {
     return Role
     .findById(req.params.roleId)
@@ -38,6 +71,15 @@ class RoleController {
       .catch(error => res.status(400).send(error));
   }
 
+  /**
+   * DeleteRole
+   *
+   * Deletes a role
+   *
+   * @param {object} req The request object
+   * @param {object} res The response object
+   * @returns {object} success message
+   */
   static DeleteRole(req, res) {
     return Role
       .findById(req.params.roleId)
