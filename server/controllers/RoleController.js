@@ -8,7 +8,7 @@ class RoleController {
       .create({
         title: req.body.title,
       })
-      .then(Role => res.status(201).send(Role))
+      .then(role => res.status(201).send(Role))
       .catch(error => res.status(400).send(error));
   }
 
