@@ -139,18 +139,23 @@ class UserController {
     return User
       .findById(req.params.UserId)
       .then(user => {
-        if (!user) {
-          return res.status(404).send({
-            message: 'user Not Found',
-          });
+        if (UserController.VerifyOwner(req, user)) {
+          if (!user) {
+            return res.status(404).send({
+              message: 'user Not Found',
+            });
+          }
+          return user
+            .update(req.body, {
+              fields: Object.keys(req.body)
+            })
+            .then(() => res.status(200).send(UserData(user)))
+            .catch((error) => res.status(400).send(error));
         }
-        return user
-          .update(req.body, {
-            fields: Object.keys(req.body)
-          })
-          .then(() => res.status(200).send(UserData(user)))
-          .catch((error) => res.status(400).send(error));
-      })
+        return res.status(401).send({
+          message: 'You do not have permission access this data',
+        });
+        })
       .catch((error) => res.status(400).send(error));
   }
 
@@ -262,6 +267,23 @@ class UserController {
     return res.status(200).send({
       message: 'user successfully logged out',
     });
+  }
+
+  /**
+   * VerifyOwner
+   *
+   * verifies user making a request
+   *
+   * @param {object} req The request object
+   * @param {object} user user being verified
+   * @returns {boolean} true | false
+   */
+  static VerifyOwner(req, user) {
+    if(user.id === req.decoded.id){
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 
