@@ -57,7 +57,9 @@ class UserController {
         const token = UserController.GenerateToken(user);
         user.passsword = null;
         return res.status(201).send({
-          message: 'User created Succesfully', token, user });
+          message: 'User created Succesfully',
+          token: token,
+          user: user });
       })
       .catch(error => res.status(400).send(error));
   }
