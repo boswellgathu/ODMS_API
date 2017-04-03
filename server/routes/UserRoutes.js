@@ -17,7 +17,7 @@ UserRouter.post('/users/logout', UserController.Logout);
 UserRouter.get('/users', Auth, IsAdmin, UserController.ListUsers);
 UserRouter.get('/users/:UserId', Auth, IsUser, UserController.RetrieveUser);
 UserRouter.get('/search/users', Auth, IsUser, UserController.SearchUsers);
-UserRouter.put('/users/:UserId/update', Auth, IsUser, UserController.UpdateUser);
-UserRouter.delete('/users/:UserId/delete', Auth, IsAdmin, UserController.DeleteUser);
+UserRouter.put('/users/:UserId', Auth, IsUser, UserController.UpdateUser);
+UserRouter.delete('/users/:UserId', Auth, IsAdmin, UserController.DeleteUser);
 
 module.exports = UserRouter;

@@ -1,0 +1,458 @@
+FORMAT: 1A
+HOST: https://gdocs-staging.herokuapp.com/
+
+# GDocs
+
+GDocs is a document management API, that lets a user manage documents through the CRUD operations
+
+API V1 https://github.com/andela-Bgathu/GDocs
+
+
+# Documentation guidelines
+
+All endpoints of the GDocs AP1 have been authenticated with a token except for a few which include ```POST /api/users ```
+and ```POST /api/users/login```
+
+# Group Roles
+
+Resources related to roles
+
+### Create a new role [POST /api/roles]
+
+- Creates a new role
++ Requires Authorization and Admin access
++ Request (application/json)
+
+        {
+            title: "Admin"
+        }
+
++ Response 200 (application/json)
+
+    
+        {
+            "id": 1,
+            "title": "Admin",
+            "createdAt": "2017-03-22T05:21:47.910Z",
+            "updatedAt": "2017-03-22T05:21:47.910Z"
+        }
+    
+
+### list roles [GET /api/roles]
+
+- List all roles
++ Requires Authorization and Admin access
++ Response 200 (application/json)
+
+        [
+          {
+            "id": 1,
+            "title": "admin",
+            "createdAt": "2017-03-22T05:21:47.910Z",
+            "updatedAt": "2017-03-22T05:21:47.910Z"
+          },
+          {
+            "id": 2,
+            "title": "user",
+            "createdAt": "2017-03-22T05:21:58.069Z",
+            "updatedAt": "2017-03-22T05:21:58.069Z"
+          }
+        ]
+
+### Get a specific role [GET /api/roles/:roleId]
+
+- Displays a specific role when its id is provided i.e `/api/roles/1`:
++ Requires authentication and admin access
++ Response 200 (application/json)
+
+        {
+          "id": 1,
+          "title": "admin",
+          "createdAt": "2017-03-22T05:21:47.910Z",
+          "updatedAt": "2017-03-22T05:21:47.910Z"
+        }
+
+
+### Update a specific role [PUT /api/roles/:roleId]
+
+- Update a specific role whose id is provided, i.e `/api/roles/2`:
+
++ Requires authentication and admin access
++ Response 200 (application/json)
+  
+        {
+          "id": 2,
+          "title": "user",
+          "createdAt": "2017-03-22T05:21:58.069Z",
+          "updatedAt": "2017-03-22T05:21:58.069Z"
+        }
+  
+
+### Delete a specific role [PUT /api/roles/:roleId]
+
+- Deletes a role whose id has been provided i.e `/api/roles/2`.
+
++ Requires authentication and admin access
++ Response 200 (application/json)
+
+        {
+            message: 'Role deleted succesfully'
+        }
+
+
+# Group User
+
+Resources related to users in the API
+
+
+### Create a new user [POST /api/users]
+
+- Creates a new user
+
+The following fields are required:
+
++ First Name
++ Last Name
++ Username
++ Email Address
++ Password
++ Password Confirmation
+
+
++ Request (application/json)
+
+          {
+              "firstName": "Gathu",
+              "lastName": "Boss",
+              "userName": "GBoss",
+              "email": "GBoss@gmail.com",
+              "password": "C@ntGet$234",
+              "password_confirmation": "C@ntGet$234"
+              "role": "1"
+          }
+
++ Response 200 (application/json)
+
+          {
+            "message": "User created Succesfully",
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlSWQiOjEsImVtYWlsIjoiR0Jvc3NAZ21haWwuY29tIiwiaWQiOjUsImlhdCI6MTQ5MTE5NTA2NiwiZXhwIjoxNDkxMjgxNDY2fQ.S1PsWgtN5IFlqpf7OYYF5AOODAZuq-17sEiSTa3PEpo",
+            "user": {
+              "id": 5,
+              "email": "GBoss@gmail.com",
+              "userName": "GBoss",
+              "roleId": 1,
+              "firstName": "Gathu",
+              "lastName": "Boss",
+              "updatedAt": "2017-04-03T04:51:06.362Z",
+              "createdAt": "2017-04-03T04:51:06.362Z"
+            }
+          }
+
+### Login A User [POST /api/users/login]
+
+Login an existing user
+
++ Requires the following fields
++ email
++ password
+
++ Request (application/json)
+
+          {
+              "userName": "GBoss@gmail.com",
+              "password": "C@ntGet$234"
+          }
+
++ Response 200 (application/json)
+
+          {
+            "message": "User Login Succesfull",
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlSWQiOjEsImVtYWlsIjoiR0Jvc3NAZ21haWwuY29tIiwiaWQiOjUsImlhdCI6MTQ5MTE5NTMwNiwiZXhwIjoxNDkxMjgxNzA2fQ.1YL64jEoiO3eqRydFzP4PE-w5kt1SuhjdeLyPPmMOMA",
+            "user": {
+              "id": 5,
+              "email": "GBoss@gmail.com",
+              "userName": "GBoss",
+              "firstName": "Gathu",
+              "lastName": "Boss",
+              "createdAt": "2017-04-03T04:51:06.362Z",
+              "updatedAt": "2017-04-03T04:51:06.362Z",
+              "roleId": 1
+            }
+          }
+
+
+### User Logout [GET /api/users/logout]
+
+Logs out a user who had logged in
+
++ Response 200 (application/json)
+
+          {
+              "Message": "user succesfully logged out"
+          }
+
+
+### list all Users [GET /api/users]
+
+Lists all existing users
++ Requires authentication and admin access
+
++ Response 200 (application/json)
+
+        [
+            {
+              "id": 1,
+              "email": "johndoeNew@gmail.com",
+              "userName": "johndoe",
+              "firstName": "John",
+              "lastName": "doeNew",
+              "createdAt": "2017-04-03T04:40:35.255Z",
+              "updatedAt": "2017-04-03T04:40:36.508Z",
+              "roleId": 1
+            },
+            {
+              "id": 5,
+              "email": "GBoss@gmail.com",
+              "userName": "GBoss",
+              "firstName": "Gathu",
+              "lastName": "Boss",
+              "createdAt": "2017-04-03T04:51:06.362Z",
+              "updatedAt": "2017-04-03T04:51:06.362Z",
+              "roleId": 1
+            }
+        ]
+
+### Get a specific user [GET /api/users/:id]
+
+Shows or gets a specific user whose id has been specified, i.e, `/api/users/1`
++ Requires authentication
+
++ Response 200 (application/json)
+
+          {
+            "id": 1,
+            "email": "johndoeNew@gmail.com",
+            "userName": "johndoe",
+            "firstName": "John",
+            "lastName": "doeNew",
+            "createdAt": "2017-04-03T04:40:35.255Z",
+            "updatedAt": "2017-04-03T04:40:36.508Z",
+            "roleId": 1
+          }
+
+### Update a user [PUT /api/users/:id]
+
+Update details of a user whose id is specified, i.e `/api/users/1`
++ Requires authentication
+
++ Request (application/json)
+    
+        {
+            userName: "NewDoe",
+            email: "jdoe@gmail.com"
+        }
+
++ Response 200 (application/json)
+
+          {
+            "id": 1,
+            "email": "jdoe@gmail.com",
+            "userName": "NewDoe",
+            "firstName": "Gathu",
+            "lastName": "Boss",
+            "createdAt": "2017-04-03T04:51:06.362Z",
+            "updatedAt": "2017-04-03T05:16:01.497Z",
+            "roleId": 1
+          }
+
+
+### Search Users [GET /api/users/search]
+
+Search a user by their username, i.e `/api/search/users/?username=doe`
+
++ Response 200 (application/json)
+
+          [
+            {
+              "id": 5,
+              "email": "jdoe@gmail.com",
+              "userName": "NewDoe",
+              "firstName": "Gathu",
+              "lastName": "Boss",
+              "createdAt": "2017-04-03T04:51:06.362Z",
+              "updatedAt": "2017-04-03T05:16:01.497Z",
+              "roleId": 1
+            },
+            {
+              "id": 1,
+              "email": "johndoeNew@gmail.com",
+              "userName": "johndoe",
+              "firstName": "John",
+              "lastName": "doeNew",
+              "createdAt": "2017-04-03T04:40:35.255Z",
+              "updatedAt": "2017-04-03T04:40:36.508Z",
+              "roleId": 1
+            }
+          ]
+
+### Delete a user [DELETE /api/users/:UserId]
+
+Deletes a user whose id is specified, i.e `/api/users/1`
++ Requires authentication and Admin access
+
++ Response 200 (application/json)
+
+          {
+            "message": "johndoeNew@gmail.com has been deleted succesfully"
+          }
+
+
+# Group Documents
+
+Documents endpoints for the API
+
+### create a document [POST /api/documents]
+
+Lets a user add a document
++ fields required include;
++ title
++ content
++ userId
++ access [`optional`] when not specified, defaults to `private`
+
++ Requires authentication
+
++ Request (application/json)
+
+          {
+            title: 'My first Document',
+            content: 'The beginning of all documents I own',
+            access: 'public',
+            userId: 5
+          }
+
++ Response 200 (application/json)
+
+          {
+            "message": "Document created succesfully",
+            "document": {
+              "id": 5,
+              "title": "My first Document",
+              "content": "The beginning of all documents I own",
+              "access": "public",
+              "userId": 5,
+              "updatedAt": "2017-04-03T05:49:10.699Z",
+              "createdAt": "2017-04-03T05:49:10.699Z"
+            }
+          }
+
+### list documents [GET /api/documents]
+
+List all existing documents
+If it is an admin accessing this endpoint all documents (private and public) are returned else only public documents are returned.
+
++ Requires authentication
+
++ Response 200 (application/json)
+    
+          [
+            {
+              "id": 5,
+              "title": "My first Document",
+              "content": "The beginning of all documents I own",
+              "access": "public",
+              "createdAt": "2017-04-03T05:49:10.699Z",
+              "updatedAt": "2017-04-03T05:49:10.699Z",
+              "userId": 5
+            }
+          ]
+
+
+### Get a specific document [GET /api/documents/:id]
+
+Find a document whose id is specified
+
++ Response 200 (application/json)
+
+        {
+          "id": 5,
+          "title": "My first Document",
+          "content": "The beginning of all documents I own",
+          "access": "public",
+          "createdAt": "2017-04-03T05:49:10.699Z",
+          "updatedAt": "2017-04-03T05:49:10.699Z",
+          "userId": 5
+        }
+
+
+
+### Get a user's documents [GET /users/:UserId/documents]
+list documents belonging to the user whose id has been specified, `/users/5/documents`
++ Requires Authentication
+
++ Response 200 (application/json)
+
+          [
+            {
+              "id": 5,
+              "title": "My first Document",
+              "content": "The beginning of all documents I own",
+              "access": "public",
+              "createdAt": "2017-04-03T05:49:10.699Z",
+              "updatedAt": "2017-04-03T05:49:10.699Z",
+              "userId": 5
+            }
+          ]
+
+
+### search for documents [POST /api/documents/search]
+search for documents by their title, i.e `/search/documents/?doctitle=my`
+
++ Requires authentication
+
++ Response 200 (application/json)
+
+          [
+            {
+              "id": 5,
+              "title": "My first Document",
+              "content": "The beginning of all documents I own",
+              "access": "public",
+              "createdAt": "2017-04-03T05:49:10.699Z",
+              "updatedAt": "2017-04-03T05:49:10.699Z",
+              "userId": 5
+            }
+          ]
+
+### Update a document [PUT /api/documents/:id]
+Update a docuent whose id is provided i.e, `/api/documents/5`
+
++ Requires authentication
+
++ Response 200 (application/json)
+
+          {
+            "id": 5,
+            "title": "My first Document [updated]",
+            "content": "The beginning of all documents I own and has been updated",
+            "access": "public",
+            "createdAt": "2017-04-03T05:49:10.699Z",
+            "updatedAt": "2017-04-03T06:47:41.004Z",
+            "userId": "5"
+          }
+
+
+### Delete a document [DELETE /api/documents/:id]
+
+Deletes the document whose id has been specified, i.e `/api/documents/5`
+
++ Requires authentication
+
++ Response 200 (application/json)
+
+          {
+            "message": "My first Document [updated] has been deleted succesfully"
+          }
+
+
+
