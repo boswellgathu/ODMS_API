@@ -53,7 +53,7 @@ class UserController {
    */
   static CreateUser(req, res) {
     if (!req.body.roleId){
-      req.body.roleId = 2;
+      req.body.roleId = 2; // default user role
     }
     return User
       .create(req.body)
