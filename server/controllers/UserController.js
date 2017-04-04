@@ -99,7 +99,7 @@ class UserController {
           return res.status(200).send(users);
         })
         .catch(error => {
-          return res.status(201).send({
+          return res.status(400).send({
             message: 'There was a problem with the query params check if they are all numbers',
             Error : error.message
           });
@@ -137,7 +137,7 @@ class UserController {
         return res.status(200).send(UserData(user));
       })
       .catch(error => {
-        return res.status(201).send({
+        return res.status(400).send({
           message: 'There was a problem with the userId check if it is a number',
           Error : error.message
         });
@@ -175,7 +175,7 @@ class UserController {
         });
         })
       .catch((error) => {
-        return res.status(201).send({
+        return res.status(400).send({
           message: 'There was a problem with the userId check if it is a number',
           Error : error.message
         });
@@ -208,7 +208,7 @@ class UserController {
           .catch(error => res.status(400).send(error));
       })
       .catch(error => {
-        return res.status(201).send({
+        return res.status(400).send({
           message: 'There was a problem with the userId check if it is a number',
           Error : error.message
         });

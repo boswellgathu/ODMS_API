@@ -27,16 +27,16 @@ Resources related to roles
             title: "Admin"
         }
 
-+ Response 200 (application/json)
++ Response 201 (application/json)
 
-    
+
         {
             "id": 1,
             "title": "Admin",
             "createdAt": "2017-03-22T05:21:47.910Z",
             "updatedAt": "2017-03-22T05:21:47.910Z"
         }
-    
+
 
 ### list roles [GET /api/roles]
 
@@ -79,14 +79,14 @@ Resources related to roles
 
 + Requires authentication and admin access
 + Response 200 (application/json)
-  
+
         {
           "id": 2,
           "title": "user",
           "createdAt": "2017-03-22T05:21:58.069Z",
           "updatedAt": "2017-03-22T05:21:58.069Z"
         }
-  
+
 
 ### Delete a specific role [PUT /api/roles/:roleId]
 
@@ -131,7 +131,7 @@ The following fields are required:
               "role": "1"
           }
 
-+ Response 200 (application/json)
++ Response 201 (application/json)
 
           {
             "message": "User created Succesfully",
@@ -222,6 +222,26 @@ Lists all existing users
             }
         ]
 
+### pagination for users [GET /api/users/?limit={integer}&offset={integer}]
+
+Lists all existing users, i.e, `/api/users/?limit=1&offset=0`
++ Requires authentication and admin access
+
++ Response 200 (application/json)
+
+        [
+            {
+              "id": 1,
+              "email": "johndoeNew@gmail.com",
+              "userName": "johndoe",
+              "firstName": "John",
+              "lastName": "doeNew",
+              "createdAt": "2017-04-03T04:40:35.255Z",
+              "updatedAt": "2017-04-03T04:40:36.508Z",
+              "roleId": 1
+            }
+        ]
+
 ### Get a specific user [GET /api/users/:id]
 
 Shows or gets a specific user whose id has been specified, i.e, `/api/users/1`
@@ -246,7 +266,7 @@ Update details of a user whose id is specified, i.e `/api/users/1`
 + Requires authentication
 
 + Request (application/json)
-    
+
         {
             userName: "NewDoe",
             email: "jdoe@gmail.com"
@@ -331,7 +351,7 @@ Lets a user add a document
             userId: 5
           }
 
-+ Response 200 (application/json)
++ Response 201 (application/json)
 
           {
             "message": "Document created succesfully",
@@ -354,7 +374,7 @@ If it is an admin accessing this endpoint all documents (private and public) are
 + Requires authentication
 
 + Response 200 (application/json)
-    
+
           [
             {
               "id": 5,
@@ -367,6 +387,26 @@ If it is an admin accessing this endpoint all documents (private and public) are
             }
           ]
 
+### pagination for documents [GET /api/documents/?limit={integer}&offset={integer}]
+
+paginated list of  documents, i.e, `/api/documents/?limit=0&offset=o`
+If it is an admin accessing this endpoint all documents (private and public) are returned else only public documents are returned.
+
++ Requires authentication
+
++ Response 200 (application/json)
+
+          [
+            {
+              "id": 5,
+              "title": "My first Document",
+              "content": "The beginning of all documents I own",
+              "access": "public",
+              "createdAt": "2017-04-03T05:49:10.699Z",
+              "updatedAt": "2017-04-03T05:49:10.699Z",
+              "userId": 5
+            }
+          ]
 
 ### Get a specific document [GET /api/documents/:id]
 

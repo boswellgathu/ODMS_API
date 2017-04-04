@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="26653497-b4bd-4f93-9b86-0032c53e8fa7" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Documentation.html" afterPath="$PROJECT_DIR$/Documentation.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/feedback" afterPath="$PROJECT_DIR$/feedback" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/controllers/DocController.js" afterPath="$PROJECT_DIR$/server/controllers/DocController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gdocs.apib" afterPath="$PROJECT_DIR$/gdocs.apib" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/controllers/UserController.js" afterPath="$PROJECT_DIR$/server/controllers/UserController.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -33,11 +33,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UserController.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="UserController.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/controllers/UserController.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3139">
-              <caret line="98" column="43" lean-forward="true" selection-start-line="98" selection-start-column="43" selection-end-line="98" selection-end-column="43" />
+            <state relative-caret-position="1249">
+              <caret line="250" column="10" lean-forward="true" selection-start-line="250" selection-start-column="10" selection-end-line="250" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -76,8 +76,8 @@
       <file leaf-file-name="UserRoutes.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/routes/UserRoutes.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="16" column="64" lean-forward="false" selection-start-line="16" selection-start-column="55" selection-end-line="16" selection-end-column="64" />
+            <state relative-caret-position="378">
+              <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
               <folding>
                 <element signature="e#0#49#0" expanded="false" />
               </folding>
@@ -85,11 +85,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="feedback" pinned="false" current-in-tab="false">
+      <file leaf-file-name="feedback" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/feedback">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="821">
-              <caret line="54" column="72" lean-forward="false" selection-start-line="54" selection-start-column="72" selection-end-line="54" selection-end-column="72" />
+            <state relative-caret-position="677">
+              <caret line="46" column="0" lean-forward="false" selection-start-line="46" selection-start-column="0" selection-end-line="54" selection-end-column="72" />
               <folding />
             </state>
           </provider>
@@ -160,6 +160,7 @@
         <option value="$PROJECT_DIR$/server/models/user.js" />
         <option value="$PROJECT_DIR$/server/controllers/DocController.js" />
         <option value="$PROJECT_DIR$/server/controllers/UserController.js" />
+        <option value="$PROJECT_DIR$/gdocs.apib" />
         <option value="$PROJECT_DIR$/feedback" />
       </list>
     </option>
@@ -414,12 +415,12 @@
       <workItem from="1490705306502" duration="14841000" />
       <workItem from="1491205034933" duration="682000" />
       <workItem from="1491217204634" duration="2173000" />
-      <workItem from="1491221651038" duration="15125000" />
+      <workItem from="1491221651038" duration="16640000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="85988000" />
+    <option name="totallyTimeSpent" value="87503000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -596,20 +597,12 @@
     <entry file="file://$PROJECT_DIR$/client/actions/DocumentActions.js" />
     <entry file="file://$PROJECT_DIR$/client/reducers/UserReducer.js" />
     <entry file="file://$PROJECT_DIR$/server/routes/RolesRoutes" />
-    <entry file="file://$PROJECT_DIR$/gdocs.apib">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Documentation.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2250">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#13302#13308#0" expanded="false" />
-            <element signature="n#style#0;n#p#0;n#nav#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -729,16 +722,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/routes/UserRoutes.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="16" column="64" lean-forward="false" selection-start-line="16" selection-start-column="55" selection-end-line="16" selection-end-column="64" />
-          <folding>
-            <element signature="e#0#49#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/server/routes/DocRoutes.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -763,6 +746,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/server/routes/UserRoutes.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#49#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/server/controllers/DocController.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3510">
@@ -771,18 +764,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/feedback">
+    <entry file="file://$PROJECT_DIR$/server/controllers/UserController.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="821">
-          <caret line="54" column="72" lean-forward="false" selection-start-line="54" selection-start-column="72" selection-end-line="54" selection-end-column="72" />
+        <state relative-caret-position="1249">
+          <caret line="250" column="10" lean-forward="true" selection-start-line="250" selection-start-column="10" selection-end-line="250" selection-end-column="10" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/controllers/UserController.js">
+    <entry file="file://$PROJECT_DIR$/gdocs.apib">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3139">
-          <caret line="98" column="43" lean-forward="true" selection-start-line="98" selection-start-column="43" selection-end-line="98" selection-end-column="43" />
+        <state relative-caret-position="1361">
+          <caret line="353" column="14" lean-forward="false" selection-start-line="353" selection-start-column="14" selection-end-line="353" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/feedback">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="677">
+          <caret line="46" column="0" lean-forward="false" selection-start-line="46" selection-start-column="0" selection-end-line="54" selection-end-column="72" />
           <folding />
         </state>
       </provider>
