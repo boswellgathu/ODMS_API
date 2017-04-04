@@ -42,3 +42,14 @@
 * Make search robust
 * Unique title
 * Reimplement offset and limit
+
+
+* add the appropriate response codes for the documentation
+* document search should include both title and content and the query param is q
+* document pagination for both users and documents in the documentation
+* error code for duplicate resources and return and appropriate error msg and code
+* add a default role for the user model
+* only a user can update a users details
+* return a more friendly error to use instead of sequelize errors
+* a user should be able to get any other users data
+* make sure returned user object does not include password field

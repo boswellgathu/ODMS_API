@@ -199,9 +199,22 @@ class DocController {
             message: "No documents match that search criteria"
           });
         }
-        return res.status(200).send(documents);
+        return res.status(200).send(documents.map(DocController.DocData));
       })
       .catch(error => res.status(400).send(error));
+  }
+
+  /**
+   * DocData
+   *
+   * returns Doc's Data
+   *
+   * @param {object} doc The user object
+   * @returns {object} doc object
+   */
+  static DocData(doc) {
+    const {id, title, content } = doc;
+    return {id, title, content };
   }
 }
 
