@@ -66,9 +66,9 @@ class UserController {
         });
       })
       .catch( error => {
-        return res.status(201).send({
+        return res.status(400).send({
           message: 'There was a problem creating the user',
-          Error : error.errors[0].message
+          Error : UserController.HandleErr(error)
         });
       });
   }
@@ -101,7 +101,7 @@ class UserController {
         .catch(error => {
           return res.status(400).send({
             message: 'There was a problem with the query params check if they are all numbers',
-            Error : error.message
+            Error :  UserController.HandleErr(error)
           });
         });
     }
@@ -139,7 +139,7 @@ class UserController {
       .catch(error => {
         return res.status(400).send({
           message: 'There was a problem with the userId check if it is a number',
-          Error : error.message
+          Error : UserController.HandleErr(error)
         });
       });
   }
@@ -177,7 +177,7 @@ class UserController {
       .catch((error) => {
         return res.status(400).send({
           message: 'There was a problem with the userId check if it is a number',
-          Error : error.message
+          Error : UserController.HandleErr(error)
         });
       });
   }
@@ -210,7 +210,7 @@ class UserController {
       .catch(error => {
         return res.status(400).send({
           message: 'There was a problem with the userId check if it is a number',
-          Error : error.message
+          Error : UserController.HandleErr(error)
         });
       });
   }
@@ -278,7 +278,12 @@ class UserController {
           });
         }
       })
-      .catch(error => res.status(400).send(error));
+      .catch(error => {
+        return res.status(400).send({
+          message: 'There was a problem login in',
+          Error : UserController.HandleErr(error)
+        });
+      });
   }
 
   /**
@@ -307,10 +312,34 @@ class UserController {
    * @returns {boolean} true | false
    */
   static VerifyOwner(req, user) {
-    if(user.id === req.decoded.id){
+    if (!user){
       return true;
     } else {
-      return false;
+      if(user.id === req.decoded.id){
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
+  /**
+   * HandleErr
+   *
+   * returns a readable error message
+   *
+   * @param {object} error The request object
+   * @returns {object | string } error message
+   */
+  static HandleErr(error) {
+    if (typeof error === 'object'){
+      if(!error.errors){
+        return error.message;
+      } else {
+        return error.errors[0].message;
+      }
+    } else {
+      return error;
     }
   }
 }

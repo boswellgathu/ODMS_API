@@ -1,4 +1,5 @@
 const db = require('../models');
+const HandleErr = require('./UserController').HandleErr;
 const Document = db.Document;
 
 /**
@@ -27,7 +28,7 @@ class DocController {
       .catch(error => {
         return res.status(400).send({
           message: 'There was a problem creating the document',
-          Error : error.errors[0].message
+          Error : HandleErr(error)
         });
       });
   }
@@ -62,7 +63,7 @@ class DocController {
         .catch(error => {
           return res.status(400).send({
             message: 'There was a problem with the query params check if they are all numbers',
-            Error : error.message
+            Error : HandleErr(error)
           });
         });
     }
@@ -100,7 +101,7 @@ class DocController {
       .catch(error => {
         return res.status(400).send({
           message: 'There was a problem with the DocId, check if it is a number',
-          Error : error.message
+          Error : HandleErr(error)
         });
       });
   }
@@ -133,7 +134,7 @@ class DocController {
       .catch((error) => {
         return res.status(400).send({
           message: 'There was a problem with the DocId, check if it is a number',
-          Error : error.message
+          Error : HandleErr(error)
         });
       });
   }
@@ -166,7 +167,7 @@ class DocController {
       .catch(error => {
         return res.status(400).send({
           message: 'There was a problem with the DocId, check if it is a number',
-          Error : error.message
+          Error : HandleErr(error)
         });
       });
   }
@@ -198,7 +199,7 @@ class DocController {
       .catch(error => {
         return res.status(400).send({
           message: 'There was a problem with the UserId, check if it is a number',
-          Error : error.message
+          Error : HandleErr(error)
         });
       });
   }

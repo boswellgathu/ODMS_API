@@ -67,8 +67,8 @@ describe('/POST Users', () => {
       })
       .end((err, res) => {
         res.should.have.status(400);
-        expect(res.body.name).to.contain("SequelizeUniqueConstraintError");
-        expect(res.body.errors[0].message).to.contain("email must be unique");
+        expect(res.body.message).to.contain("There was a problem creating the user");
+        expect(res.body.Error).to.contain("email must be unique");
         done();
       });
   });
@@ -87,6 +87,8 @@ describe('/POST Users', () => {
       })
       .end((err, res) => {
         res.should.have.status(400);
+        expect(res.body.message).to.contain("There was a problem creating the user");
+        expect(res.body.Error).to.contain("Password and Password_confirmation do not match!");
         done();
       });
   });
@@ -105,8 +107,8 @@ describe('/POST Users', () => {
       })
       .end((err, res) => {
         res.should.have.status(400);
-        expect(res.body.name).to.contain("SequelizeValidationError");
-        expect(res.body.errors[0].message).to.contain("password must have six or more characters");
+        expect(res.body.message).to.contain("There was a problem creating the user");
+        expect(res.body.Error).to.contain("password must have six or more characters");
         done();
       });
   });
@@ -125,8 +127,8 @@ describe('/POST Users', () => {
       })
       .end((err, res) => {
         res.should.have.status(400);
-        expect(res.body.name).to.contain("SequelizeValidationError");
-        expect(res.body.errors[0].message).to.contain("Email address must be valid");
+        expect(res.body.message).to.contain("There was a problem creating the user");
+        expect(res.body.Error).to.contain("Email address must be valid");
         done();
       });
   });
@@ -183,7 +185,8 @@ describe('/POST Users', () => {
       })
       .end((err, res) => {
         res.should.have.status(400);
-        expect(res.error.text).to.contain('Incorrect arguments');
+        expect(res.body.message).to.contain("There was a problem login in");
+        expect(res.body.Error).to.contain("Incorrect arguments");
         done();
       });
   });
@@ -251,8 +254,8 @@ describe('/GET Users', () => {
       .get('/api/users/?limit=tfdnng&&offset=the')
       .set('x-access-token', token)
       .end((err, res) => {
-        res.should.have.status(400);
-        expect(res.body.message).eql('invalid input syntax for integer: "the"');
+        expect(res.body.message).to.contain("There was a problem with the query params check if they are all numbers");
+        expect(res.body.Error).to.contain("invalid input syntax for integer: \"the\"");
         done();
       });
   });
@@ -281,11 +284,12 @@ describe('/GET Users', () => {
 
   it('it should not return a user when userId specified is not integer', (done) => {
     chai.request(app)
-      .get('/api/users/' + 'ther')
+      .get('/api/users/' + 'the')
       .set('x-access-token', token)
       .end((err, res) => {
         res.should.have.status(400);
-        expect(res.body.message).eql( 'invalid input syntax for integer: "ther"');
+        expect(res.body.message).to.contain("There was a problem with the userId check if it is a number");
+        expect(res.body.Error).to.contain("invalid input syntax for integer: \"the\"");
         done();
       });
   });
@@ -363,7 +367,8 @@ describe('/PUT users', () => {
       .set('x-access-token', token)
       .end((err, res) => {
         res.should.have.status(400);
-        expect(res.body.message).eql('invalid input syntax for integer: "haha"');
+        expect(res.body.message).to.contain("There was a problem with the userId check if it is a number");
+        expect(res.body.Error).to.contain("invalid input syntax for integer: \"haha\"");
         done();
       });
   });
@@ -378,7 +383,7 @@ describe('/search users', () => {
     chai.request(app)
       .get('/api/search/users')
       .set('x-access-token', token)
-      .query({username: 'e'})
+      .query({q: 'e'})
       .end((err, res) => {
         res.should.have.status(200);
         expect(res.body.length).eql(2);
@@ -431,7 +436,8 @@ describe('/delete users', () => {
       .set('x-access-token', token)
       .end((err, res) => {
         res.should.have.status(400);
-        expect(res.body.message).eql('invalid input syntax for integer: "there"');
+        expect(res.body.message).to.contain("There was a problem with the userId check if it is a number");
+        expect(res.body.Error).to.contain("invalid input syntax for integer: \"there\"");
         done();
       });
   });

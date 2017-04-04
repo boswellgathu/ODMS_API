@@ -44,7 +44,8 @@ describe('/POST Documents', () => {
       })
       .end((err, res) => {
         res.should.have.status(400);
-        res.body.should.have.property('name').eql('SequelizeForeignKeyConstraintError');
+        expect(res.body.message).to.contain("There was a problem creating the document");
+        expect(res.body.Error).to.contain("insert or update on table \"Documents\" violates foreign key constraint \"Documents_userId_fkey\"");
         done();
       });
   });
@@ -98,8 +99,8 @@ describe('/POST Documents', () => {
       })
       .end((err, res) => {
         res.should.have.status(400);
-        res.body.should.have.property('name').eql('SequelizeDatabaseError');
-        expect(res.body.message).eql('invalid input value for enum "enum_Documents_access": "notValid"');
+        expect(res.body.message).to.contain("There was a problem creating the document");
+        expect(res.body.Error).to.contain("invalid input value for enum \"enum_Documents_access\": \"notValid\"");
         done();
       });
   });
@@ -114,8 +115,8 @@ describe('/POST Documents', () => {
       })
       .end((err, res) => {
         res.should.have.status(400);
-        res.body.should.have.property('name').eql('SequelizeValidationError');
-        expect(res.body.message).eql('notNull Violation: title cannot be null');
+        expect(res.body.message).to.contain("There was a problem creating the document");
+        expect(res.body.Error).to.contain("title cannot be null");
         done();
       });
   });
@@ -175,8 +176,8 @@ describe('/GET Documents', () => {
       })
       .end((err, res) => {
         res.should.have.status(400);
-        res.body.should.have.property('name').eql('SequelizeDatabaseError');
-        expect(res.body.message).eql('invalid input syntax for integer: "number"');
+        expect(res.body.message).to.contain("There was a problem with the query params check if they are all numbers");
+        expect(res.body.Error).to.contain("invalid input syntax for integer: \"number\"");
         done();
       });
   });
@@ -199,7 +200,7 @@ describe('/GET Documents', () => {
       .set('x-access-token', token)
       .end((err, res) => {
         res.should.have.status(404);
-        res.body.should.have.property('message').eql('No Documents found');
+        res.body.should.have.property('message').eql("No Documents found for that user");
         done();
       });
   });
@@ -236,8 +237,8 @@ it('it should not GET a document when the DocId specified is not an integer', (d
       .set('x-access-token', token)
       .end((err, res) => {
         res.should.have.status(400);
-        expect(res.body.name).eql('SequelizeDatabaseError');
-        res.body.should.have.property('message').eql('invalid input syntax for integer: "string"');
+        expect(res.body.message).to.contain("There was a problem with the DocId, check if it is a number");
+        expect(res.body.Error).to.contain("invalid input syntax for integer: \"string\"");
         done();
       });
   });
@@ -285,8 +286,8 @@ describe('/PUT Documents', () => {
       })
       .end((err, res) => {
         res.should.have.status(400);
-        expect(res.body.name).eql('SequelizeDatabaseError');
-        res.body.should.have.property('message').eql('invalid input syntax for integer: "string"');
+        expect(res.body.message).to.contain("There was a problem with the DocId, check if it is a number");
+        expect(res.body.Error).to.contain("invalid input syntax for integer: \"string\"");
         done();
       });
   });
@@ -300,15 +301,13 @@ describe('/search Documents', () => {
       .get("/api/search/documents/")
       .set('x-access-token', token)
       .query({
-        doctitle: 'title'
+        q: 'title'
       })
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('array');
         expect(res.body[0].title).eql("Updated Doc Title");
-        expect(res.body[0].access).eql("public");
         expect(res.body[0].id).eql(4);
-        expect(res.body[0].userId).eql(1);
         done();
       });
   });
@@ -357,8 +356,8 @@ describe('/DELETE Documents', () => {
       .set('x-access-token', token)
       .end((err, res) => {
         res.should.have.status(400);
-        expect(res.body.name).eql('SequelizeDatabaseError');
-        res.body.should.have.property('message').eql('invalid input syntax for integer: "string"');
+        expect(res.body.message).to.contain("There was a problem with the DocId, check if it is a number");
+        expect(res.body.Error).to.contain("invalid input syntax for integer: \"string\"");
         done();
       });
   });
