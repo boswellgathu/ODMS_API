@@ -52,6 +52,9 @@ class UserController {
    * @returns {object} res the user object created
    */
   static CreateUser(req, res) {
+    if (!req.body.roleId){
+      req.body.roleId = 2;
+    }
     return User
       .create(req.body)
       .then((user) => {
@@ -62,7 +65,12 @@ class UserController {
           user: UserData(user)
         });
       })
-      .catch(error => res.status(400).send(error));
+      .catch( error => {
+        return res.status(201).send({
+          message: 'There was a problem creating the user',
+          Error : error.errors[0].message || error.message
+        });
+      });
   }
 
   /**
@@ -202,7 +210,7 @@ class UserController {
         where: {
           $or: [{
             userName: {
-              $ilike: '%' + req.query.username + '%'
+              $ilike: '%' + req.query.q + '%'
             }
           }]
         },

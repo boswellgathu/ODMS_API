@@ -188,7 +188,7 @@ class DocController {
         where: {
           $or: [{
             title: {
-              $ilike: '%' + req.query.doctitle + '%'
+              $ilike: '%' + req.query.q + '%'
             }
           }]
         }

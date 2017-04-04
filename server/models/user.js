@@ -62,16 +62,16 @@ module.exports = (sequelize, DataTypes) => {
           return Bcrypt.compareSync(password, this.password);
         }
       }
-    })
+    });
   User.beforeCreate((user, options) => {
     if (user.password !== user.password_confirmation) {
       throw new Error('Password and Password_confirmation do not match!')
     }
-  })
+  });
   User.beforeCreate((user, options) => {
     const HashedPassword = Bcrypt.hashSync(user.password, Bcrypt.genSaltSync(10), null)
     user.password = HashedPassword;
-  })
+  });
   User.beforeUpdate((user, options) => {
     if (user.password && user.password_confirmation) {
       if (user.password !== user.password_confirmation) {
@@ -81,6 +81,6 @@ module.exports = (sequelize, DataTypes) => {
       user.password = HashedPassword;
       user.password_confirmation = null;
     }
-  })
+  });
   return User;
 };
