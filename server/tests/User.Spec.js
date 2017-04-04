@@ -361,10 +361,27 @@ describe('/PUT users', () => {
       });
   });
 
+  it('It should fail to update details of another user', (done) => {
+    chai.request(app)
+      .put('/api/users/' + 2)
+      .set('x-access-token', token)
+      .send({
+        title: 'Updated Title'
+      })
+      .end((err, res) => {
+        res.should.have.status(401);
+        expect(res.body.message).to.contain('You do not have permission access this data');
+        done();
+      });
+  });
+
   it('It should fail to update when the userId provided is not an integer', (done) => {
     chai.request(app)
       .put('/api/users/' + 'haha')
       .set('x-access-token', token)
+      .send({
+        title: 'Updated Title'
+      })
       .end((err, res) => {
         res.should.have.status(400);
         expect(res.body.message).to.contain("There was a problem with the userId check if it is a number");
