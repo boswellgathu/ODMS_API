@@ -24,7 +24,12 @@ class DocController {
         message: "Document created succesfully",
         document: documents
       }))
-      .catch(error => res.status(400).send(error));
+      .catch(error => {
+        return res.status(400).send({
+          message: 'There was a problem creating the document',
+          Error : error.errors[0].message
+        });
+      });
   }
 
   /**
@@ -54,7 +59,12 @@ class DocController {
           }
             return res.status(200).send(documents);
         })
-        .catch(error => res.status(400).send(error));
+        .catch(error => {
+          return res.status(400).send({
+            message: 'There was a problem with the query params check if they are all numbers',
+            Error : error.message
+          });
+        });
     }
 
     return Document
@@ -87,7 +97,12 @@ class DocController {
         }
         return res.status(200).send(document);
       })
-      .catch(error => res.status(400).send(error));
+      .catch(error => {
+        return res.status(400).send({
+          message: 'There was a problem with the DocId, check if it is a number',
+          Error : error.message
+        });
+      });
   }
 
   /**
@@ -115,7 +130,12 @@ class DocController {
           .then(() => res.status(200).send(document))
           .catch((error) => res.status(400).send(error));
       })
-      .catch((error) => res.status(400).send(error));
+      .catch((error) => {
+        return res.status(400).send({
+          message: 'There was a problem with the DocId, check if it is a number',
+          Error : error.message
+        });
+      });
   }
 
   /**
@@ -143,7 +163,12 @@ class DocController {
           }))
           .catch(error => res.status(404).send(error));
       })
-      .catch(error => res.status(400).send(error));
+      .catch(error => {
+        return res.status(400).send({
+          message: 'There was a problem with the DocId, check if it is a number',
+          Error : error.message
+        });
+      });
   }
 
   /**
@@ -165,12 +190,17 @@ class DocController {
       .then(documents => {
         if (documents.length === 0) {
           return res.status(404).send({
-            message: 'No Documents found',
+            message: 'No Documents found for that user',
           });
         }
         return res.status(200).send(documents);
       })
-      .catch(error => res.status(400).send(error));
+      .catch(error => {
+        return res.status(400).send({
+          message: 'There was a problem with the UserId, check if it is a number',
+          Error : error.message
+        });
+      });
   }
 
   /**

@@ -50,6 +50,6 @@
 * error code for duplicate resources and return and appropriate error msg and code
 * add a default role for the user model -- done
 * only a user can update a users details -- done
-* return a more friendly error to use instead of sequelize errors
+* return a more friendly error to use instead of sequelize errors -- done
 * a user should be able to get any other users data
-* make sure returned user object does not include password field --
+* make sure returned user object does not include password field -- done

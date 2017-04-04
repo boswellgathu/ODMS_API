@@ -68,7 +68,7 @@ class UserController {
       .catch( error => {
         return res.status(201).send({
           message: 'There was a problem creating the user',
-          Error : error.errors[0].message || error.message
+          Error : error.errors[0].message
         });
       });
   }
@@ -83,23 +83,28 @@ class UserController {
    * @returns {object} res list of all users found
    */
   static ListUsers(req, res) {
-    if (req.query.limit || req.query.offset)
+    if (req.query.limit || req.query.offset) {
       return User
-      .findAll({
-        limit: req.query.limit,
-        offset: req.query.offset
-      })
-      .then((users) => {
-        if (users.length < 1) {
-          return res.status(404).send({
-            message: 'No users exist currently'
+        .findAll({
+          limit: req.query.limit,
+          offset: req.query.offset
+        })
+        .then((users) => {
+          if (users.length < 1) {
+            return res.status(404).send({
+              message: 'No users exist currently'
+            });
+          }
+          users.map(UserData);
+          return res.status(200).send(users);
+        })
+        .catch(error => {
+          return res.status(201).send({
+            message: 'There was a problem with the query params check if they are all numbers',
+            Error : error.message
           });
-        }
-        users.map(UserData);
-        return res.status(200).send(users);
-      })
-      .catch(error => res.status(400).send(error));
-
+        });
+    }
       return User
       .all()
       .then(users => res.status(200).send(users.map(UserData)))
@@ -131,7 +136,12 @@ class UserController {
         }
         return res.status(200).send(UserData(user));
       })
-      .catch(error => res.status(400).send(error));
+      .catch(error => {
+        return res.status(201).send({
+          message: 'There was a problem with the userId check if it is a number',
+          Error : error.message
+        });
+      });
   }
 
   /**
@@ -164,7 +174,12 @@ class UserController {
           message: 'You do not have permission access this data',
         });
         })
-      .catch((error) => res.status(400).send(error));
+      .catch((error) => {
+        return res.status(201).send({
+          message: 'There was a problem with the userId check if it is a number',
+          Error : error.message
+        });
+      });
   }
 
   /**
@@ -192,7 +207,12 @@ class UserController {
           }))
           .catch(error => res.status(400).send(error));
       })
-      .catch(error => res.status(400).send(error));
+      .catch(error => {
+        return res.status(201).send({
+          message: 'There was a problem with the userId check if it is a number',
+          Error : error.message
+        });
+      });
   }
 
   /**
